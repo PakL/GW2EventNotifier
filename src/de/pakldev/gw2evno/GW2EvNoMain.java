@@ -60,8 +60,8 @@ public class GW2EvNoMain {
 		}
 
 		ks.setCertificateEntry("SGCert", cert);
-		ks.store(new FileOutputStream("out.keystore"), "secret".toCharArray());
-		System.setProperty("javax.net.ssl.trustStore", "out.keystore");
+		ks.store(new FileOutputStream("guildwars2.com.keystore"), "secret".toCharArray());
+		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
 	}
 
 	public static String loadURL(String urlStr) throws MalformedURLException {
