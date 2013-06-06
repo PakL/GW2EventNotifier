@@ -15,7 +15,7 @@ public class MessageDialog extends JDialog implements Runnable {
 	private boolean doNotAutoHide = false;
 	private Thread autoHide = null;
 
-	public MessageDialog(final DialogManager dm, String message, Image icon) {
+	public MessageDialog(final DialogManager dm, String message, Image icon, boolean interesting) {
 		this.dm = dm;
 
 		this.setUndecorated(true);
@@ -57,8 +57,17 @@ public class MessageDialog extends JDialog implements Runnable {
 				}
 			}
 		});
-		this.setBackground(Color.WHITE);
-		this.getContentPane().setBackground(Color.WHITE);
+
+		if( interesting ) {
+			this.setBackground(Color.RED);
+			this.getContentPane().setBackground(Color.RED);
+
+			this.setForeground(Color.WHITE);
+			this.getContentPane().setForeground(Color.WHITE);
+		} else {
+			this.setBackground(Color.WHITE);
+			this.getContentPane().setBackground(Color.WHITE);
+		}
 
 		SpringLayout layout = new SpringLayout();
 		this.getContentPane().setLayout(layout);

@@ -11,8 +11,8 @@ public class DialogManager {
 
 	private Map<Integer, MessageDialog> dialogs = new HashMap<Integer, MessageDialog>();
 
-	public void newDialog(String message, Image icon) {
-		MessageDialog md = new MessageDialog(this, message, icon);
+	public void newDialog(String message, Image icon, boolean interesting) {
+		MessageDialog md = new MessageDialog(this, message, icon, interesting);
 		int i = 1;
 		while( dialogs.containsKey(i) ) {
 			i++;
@@ -47,9 +47,9 @@ public class DialogManager {
 		@Override
 		public void run() {
 			long started = System.currentTimeMillis();
-			while( (System.currentTimeMillis()-started) < 1000 ) {
+			while( (System.currentTimeMillis()-started) < 500 ) {
 				float currop = AWTUtilities.getWindowOpacity(dialog);
-				float newop = (1f-((float)(System.currentTimeMillis()-started) / 1000));
+				float newop = (1f-((float)(System.currentTimeMillis()-started) / 500));
 				if( newop < currop )
 					AWTUtilities.setWindowOpacity(dialog, newop);
 

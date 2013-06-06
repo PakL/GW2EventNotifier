@@ -2,6 +2,7 @@ package de.pakldev.gw2evno.gui;
 
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
+import de.pakldev.gw2evno.InterestingEvents;
 import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
@@ -9,6 +10,7 @@ import de.pakldev.gw2evno.gw2api.Events;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EventManager implements Runnable, ActionListener {
@@ -21,6 +23,7 @@ public class EventManager implements Runnable, ActionListener {
 	private int map = 0;
 
 	private Map<String, Integer> lastEventState = null;
+	private Map<String, Integer> interestingState = null;
 
 	private Thread thisThread = null;
 	private boolean running = true;
@@ -108,17 +111,46 @@ public class EventManager implements Runnable, ActionListener {
 					if( eventName.startsWith(Language.skillChallenge()) ) continue;
 
 					if( newState == Events.STATE_WARMUP ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId));
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
 					} else if( newState == Events.STATE_PREPARATION ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId));
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
 					} else if( newState == Events.STATE_ACTIVE ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId));
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
 					}
 				}
 			}
 		}
 
 		lastEventState = newStates;
+
+		for(String eventId : InterestingEvents.eventIds) {
+			int newState = Events.getEvent(main.worlds.getWorldIdAt(world), eventId);
+			int oldState = -1;
+			if( interestingState == null ) {
+				interestingState = new HashMap<String, Integer>();
+				interestingState.put(eventId, oldState);
+			}
+			if( interestingState.containsKey(eventId) ) {
+				oldState = interestingState.get(eventId);
+			}
+
+			if( oldState != newState ) {
+				String eventName = main.events.getName(eventId);
+				if( eventName.startsWith(Language.skillChallenge()) ) continue;
+
+				if( newState == Events.STATE_WARMUP ) {
+					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), true);
+				} else if( newState == Events.STATE_PREPARATION ) {
+					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), true);
+				} else if( newState == Events.STATE_ACTIVE ) {
+					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), true);
+				}
+
+				interestingState.put(eventId, newState);
+			}
+
+
+		}
 	}
 
 }

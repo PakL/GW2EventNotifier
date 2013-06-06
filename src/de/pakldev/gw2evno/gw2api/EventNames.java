@@ -52,7 +52,6 @@ public class EventNames {
 
 					if(
 						oname.startsWith("stop") ||
-						oname.startsWith("defeat") ||
 						oname.startsWith("clear") ||
 						oname.startsWith("draw out") ||
 						oname.startsWith("beat") ||
@@ -78,6 +77,7 @@ public class EventNames {
 						eventIcons.put(oid, Events.ICON_COLLECT);
 					} else if(
 						oname.startsWith("kill") ||
+						oname.startsWith("defeat") ||
 						oname.startsWith("slay") ||
 						oname.startsWith("hunt")
 					) {

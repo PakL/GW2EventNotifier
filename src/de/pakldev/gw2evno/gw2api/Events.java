@@ -64,4 +64,35 @@ public class Events {
 		return result;
 	}
 
+	public static int getEvent(String worldId, String eventId) {
+		int result = STATE_FAIL;
+		if( !worldId.isEmpty() && !eventId.isEmpty() ) {
+			try {
+				String eventsStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&event_id="+eventId);
+				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsStr);
+				if( eventsObj.containsKey("events") ) {
+					JSONArray events = (JSONArray) eventsObj.get("events");
+					for(Object obj : events) {
+						JSONObject o = (JSONObject) obj;
+						if( o.containsKey("event_id") && o.containsKey("state") ) {
+							if( ((String) o.get("event_id")).equalsIgnoreCase(eventId) ) {
+								String stateStr = (String)o.get("state");
+								int state = Events.STATE_FAIL;
+								if( stateStr.equalsIgnoreCase("Success") ) state = Events.STATE_SUCCESS;
+								else if( stateStr.equalsIgnoreCase("Fail") ) state = Events.STATE_FAIL;
+								else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
+								else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
+								else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
+
+								result = state;
+								break;
+							}
+						}
+					}
+				}
+			} catch (Exception e) {}
+		}
+		return result;
+	}
+
 }

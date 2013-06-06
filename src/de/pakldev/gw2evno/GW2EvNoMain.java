@@ -53,6 +53,7 @@ public class GW2EvNoMain {
 		} catch(Exception ex) {}
 
 		Configuration.loadConfig();
+		InterestingEvents.loadInterestingEvents();
 		new GW2EvNoMain();
 	}
 
