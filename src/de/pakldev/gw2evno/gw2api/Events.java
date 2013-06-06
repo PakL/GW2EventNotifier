@@ -5,6 +5,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +18,22 @@ public class Events {
 	public final static int STATE_ACTIVE = 3;
 	public final static int STATE_WARMUP = 4;
 	public final static int STATE_PREPARATION = 5;
+
+	public static Image ICON_ATTACK;
+	public static Image ICON_CAPTURE;
+	public static Image ICON_COLLECT;
+	public static Image ICON_KILL;
+	public static Image ICON_OBJECT;
+	public static Image ICON_PROTECT;
+
+	public static void loadImages() throws IOException {
+		Events.ICON_ATTACK = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/attack_icon.png"));
+		Events.ICON_CAPTURE = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/capture_icon.png"));
+		Events.ICON_COLLECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/collect_icon.png"));
+		Events.ICON_KILL = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/kill_icon.png"));
+		Events.ICON_OBJECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/object_icon.png"));
+		Events.ICON_PROTECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/protect_icon.png"));
+	}
 
 	public static Map<String, Integer> getEvents(String worldId, String mapId) {
 		Map<String, Integer> result = new HashMap<String, Integer>();

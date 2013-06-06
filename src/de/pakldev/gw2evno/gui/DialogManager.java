@@ -1,7 +1,9 @@
 package de.pakldev.gw2evno.gui;
 
 import com.sun.awt.AWTUtilities;
+import de.pakldev.gw2evno.gw2api.Events;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +11,8 @@ public class DialogManager {
 
 	private Map<Integer, MessageDialog> dialogs = new HashMap<Integer, MessageDialog>();
 
-	public void newDialog(String message) {
-		MessageDialog md = new MessageDialog(this, message);
+	public void newDialog(String message, Image icon) {
+		MessageDialog md = new MessageDialog(this, message, icon);
 		int i = 1;
 		while( dialogs.containsKey(i) ) {
 			i++;

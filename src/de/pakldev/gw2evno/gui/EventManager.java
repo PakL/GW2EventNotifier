@@ -3,6 +3,7 @@ package de.pakldev.gw2evno.gui;
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import de.pakldev.gw2evno.Language;
+import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
 
 import javax.swing.*;
@@ -107,11 +108,11 @@ public class EventManager implements Runnable, ActionListener {
 					if( eventName.startsWith(Language.skillChallenge()) ) continue;
 
 					if( newState == Events.STATE_WARMUP ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId));
 					} else if( newState == Events.STATE_PREPARATION ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId));
 					} else if( newState == Events.STATE_ACTIVE ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId));
 					}
 				}
 			}

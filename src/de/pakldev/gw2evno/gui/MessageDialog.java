@@ -15,7 +15,7 @@ public class MessageDialog extends JDialog implements Runnable {
 	private boolean doNotAutoHide = false;
 	private Thread autoHide = null;
 
-	public MessageDialog(final DialogManager dm, String message) {
+	public MessageDialog(final DialogManager dm, String message, Image icon) {
 		this.dm = dm;
 
 		this.setUndecorated(true);
@@ -62,13 +62,20 @@ public class MessageDialog extends JDialog implements Runnable {
 
 		SpringLayout layout = new SpringLayout();
 		this.getContentPane().setLayout(layout);
+
+		JLabel iconlbl = new JLabel(new ImageIcon(icon));
+		layout.putConstraint(SpringLayout.NORTH, iconlbl, 18, SpringLayout.NORTH, getContentPane());
+		layout.putConstraint(SpringLayout.WEST, iconlbl, 20, SpringLayout.WEST, getContentPane());
+		layout.putConstraint(SpringLayout.EAST, iconlbl, 64, SpringLayout.WEST, iconlbl);
+		layout.putConstraint(SpringLayout.SOUTH, iconlbl, 64, SpringLayout.NORTH, iconlbl);
+		this.getContentPane().add(iconlbl);
+
 		JLabel msg = new JLabel(message, JLabel.CENTER);
 		layout.putConstraint(SpringLayout.NORTH, msg, 20, SpringLayout.NORTH, getContentPane());
 		layout.putConstraint(SpringLayout.EAST, msg, -20, SpringLayout.EAST, getContentPane());
 		layout.putConstraint(SpringLayout.SOUTH, msg, -20, SpringLayout.SOUTH, getContentPane());
-		layout.putConstraint(SpringLayout.WEST, msg, 20, SpringLayout.WEST, getContentPane());
-
-		this.getContentPane().add(msg, BorderLayout.CENTER);
+		layout.putConstraint(SpringLayout.WEST, msg, 20, SpringLayout.EAST, iconlbl);
+		this.getContentPane().add(msg);
 
 		this.setVisible(true);
 		autoHide = new Thread(this);

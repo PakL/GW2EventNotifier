@@ -3,6 +3,7 @@ package de.pakldev.gw2evno;
 
 import de.pakldev.gw2evno.gui.StartupFrame;
 import de.pakldev.gw2evno.gw2api.EventNames;
+import de.pakldev.gw2evno.gw2api.Events;
 import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.gw2api.WorldNames;
 
@@ -44,6 +45,8 @@ public class GW2EvNoMain {
 
 	public static void main(String[] args) throws Exception {
 		GW2EvNoMain.importSSLCert();
+		Events.loadImages();
+		EventNames.guessEventIcons();
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
