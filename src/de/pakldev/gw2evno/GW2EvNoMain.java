@@ -12,8 +12,10 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
@@ -44,6 +46,12 @@ public class GW2EvNoMain {
 	}
 
 	public static void main(String[] args) throws Exception {
+		System.setProperty("file.encoding","UTF-8");
+		Field charset = Charset.class.getDeclaredField("defaultCharset");
+		charset.setAccessible(true);
+		charset.set(null,null);
+
+
 		GW2EvNoMain.importSSLCert();
 		Events.loadImages();
 		EventNames.guessEventIcons();
