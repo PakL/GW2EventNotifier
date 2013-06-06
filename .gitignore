@@ -215,9 +215,11 @@ pip-log.txt
 .mr.developer.cfg
 
 #############
-## Intellij
+## Other stuff
 #############
 
 out/
 .idea/
 *.iml
+*.keystore
+*.cfg
