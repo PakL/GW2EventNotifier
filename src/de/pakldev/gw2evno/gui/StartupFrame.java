@@ -29,6 +29,7 @@ public class StartupFrame extends JFrame {
 		this.setTitle("GW2 Event Notifier");
 		this.setSize(400, 200);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Container contentPane = this.getContentPane();
