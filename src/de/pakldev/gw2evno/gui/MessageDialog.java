@@ -57,7 +57,7 @@ public class MessageDialog extends JDialog implements Runnable {
 				}
 			}
 		});
-		this.setBackground(Color.BLACK);
+		this.setBackground(Color.WHITE);
 		this.getContentPane().setBackground(Color.WHITE);
 
 		SpringLayout layout = new SpringLayout();

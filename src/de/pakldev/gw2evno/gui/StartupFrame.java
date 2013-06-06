@@ -2,10 +2,14 @@ package de.pakldev.gw2evno.gui;
 
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
+import de.pakldev.gw2evno.Language;
+import de.pakldev.gw2evno.gw2api.MapNames;
+import de.pakldev.gw2evno.gw2api.WorldNames;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StartupFrame extends JFrame {
 
@@ -30,14 +34,6 @@ public class StartupFrame extends JFrame {
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(layout);
 
-		layout.putConstraint(SpringLayout.NORTH, progressBar, -30, SpringLayout.SOUTH, progressBar);
-		layout.putConstraint(SpringLayout.WEST, progressBar, 5, SpringLayout.WEST, contentPane);
-		layout.putConstraint(SpringLayout.EAST, progressBar, -5, SpringLayout.EAST, contentPane);
-		layout.putConstraint(SpringLayout.SOUTH, progressBar, -5, SpringLayout.SOUTH, contentPane);
-		contentPane.add(progressBar);
-		progressBar.setMaximum(3);
-		progressBar.setValue(0);
-
 		this.setVisible(true);
 	}
 
@@ -48,9 +44,6 @@ public class StartupFrame extends JFrame {
 		progressBar.setMaximum(n);
 	}
 
-	public void doneLoading() {
-		this.showLoadedGUI();
-	}
 
 	public int getWorldIndex() {
 		return worldBox.getSelectedIndex();
@@ -60,13 +53,70 @@ public class StartupFrame extends JFrame {
 		return mapBox.getSelectedIndex();
 	}
 
+	public void resetToLoading() {
+		if( eventManger != null ) {
+			eventManger.stop();
+		}
+
+		final Container contentPane = this.getContentPane();
+		contentPane.removeAll();
+		contentPane.add(progressBar);
+		layout.putConstraint(SpringLayout.NORTH, progressBar, -30, SpringLayout.SOUTH, progressBar);
+		layout.putConstraint(SpringLayout.WEST, progressBar, 5, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.EAST, progressBar, -5, SpringLayout.EAST, contentPane);
+		layout.putConstraint(SpringLayout.SOUTH, progressBar, -5, SpringLayout.SOUTH, contentPane);
+		progressBar.setMaximum(3);
+		progressBar.setValue(0);
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				contentPane.validate();
+				contentPane.repaint();
+			}
+		});
+	}
+
+	public void doneLoading() {
+		this.showLoadedGUI();
+	}
+
 	private void showLoadedGUI() {
 		final Container contentPane = this.getContentPane();
 
-		JLabel lblWorldBox = new JLabel("Welt:");
-		layout.putConstraint(SpringLayout.NORTH, lblWorldBox, 5, SpringLayout.NORTH, contentPane);
+		JLabel lblLangBox = new JLabel(Language.language()+":");
+		layout.putConstraint(SpringLayout.NORTH, lblLangBox, 5, SpringLayout.NORTH, contentPane);
+		layout.putConstraint(SpringLayout.WEST, lblLangBox, 5, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.EAST, lblLangBox, 70, SpringLayout.WEST, lblLangBox);
+		contentPane.add(lblLangBox);
+
+		final JComboBox langBox = new JComboBox(new String[]{ "English", "Deutsch", "Français", "Español" });
+		layout.putConstraint(SpringLayout.NORTH, langBox, 0, SpringLayout.NORTH, lblLangBox);
+		layout.putConstraint(SpringLayout.WEST, langBox, 5, SpringLayout.EAST, lblLangBox);
+		layout.putConstraint(SpringLayout.EAST, langBox, -5, SpringLayout.EAST, contentPane);
+		contentPane.add(langBox);
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_EN) ) langBox.setSelectedIndex(0);
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) langBox.setSelectedIndex(1);
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) langBox.setSelectedIndex(2);
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) langBox.setSelectedIndex(3);
+		langBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if( langBox.getSelectedIndex() == 0 ) Configuration.language = MapNames.LANG_EN;
+				if( langBox.getSelectedIndex() == 1 ) Configuration.language = MapNames.LANG_DE;
+				if( langBox.getSelectedIndex() == 2 ) Configuration.language = MapNames.LANG_FR;
+				if( langBox.getSelectedIndex() == 3 ) Configuration.language = MapNames.LANG_ES;
+				Configuration.saveConfig();
+				main.loadLanguage(Configuration.language);
+			}
+		});
+
+		layout.putConstraint(SpringLayout.SOUTH, lblLangBox, 0, SpringLayout.SOUTH, langBox);
+
+		JLabel lblWorldBox = new JLabel(Language.world()+":");
+		layout.putConstraint(SpringLayout.NORTH, lblWorldBox, 5, SpringLayout.SOUTH, langBox);
 		layout.putConstraint(SpringLayout.WEST, lblWorldBox, 5, SpringLayout.WEST, contentPane);
-		layout.putConstraint(SpringLayout.EAST, lblWorldBox, 50, SpringLayout.WEST, lblWorldBox);
+		layout.putConstraint(SpringLayout.EAST, lblWorldBox, 70, SpringLayout.WEST, lblWorldBox);
 		contentPane.add(lblWorldBox);
 
 		worldBox = new JComboBox(main.worlds.getWorlds().values().toArray(new String[0]));
@@ -80,10 +130,11 @@ public class StartupFrame extends JFrame {
 
 		layout.putConstraint(SpringLayout.SOUTH, lblWorldBox, 0, SpringLayout.SOUTH, worldBox);
 
-		JLabel lblMapBox = new JLabel("Karte:");
+
+		JLabel lblMapBox = new JLabel(Language.map()+":");
 		layout.putConstraint(SpringLayout.NORTH, lblMapBox, 5, SpringLayout.SOUTH, worldBox);
 		layout.putConstraint(SpringLayout.WEST, lblMapBox, 5, SpringLayout.WEST, contentPane);
-		layout.putConstraint(SpringLayout.EAST, lblMapBox, 50, SpringLayout.WEST, lblMapBox);
+		layout.putConstraint(SpringLayout.EAST, lblMapBox, 70, SpringLayout.WEST, lblMapBox);
 		contentPane.add(lblMapBox);
 
 		mapBox = new JComboBox(main.maps.getMaps().values().toArray(new String[0]));

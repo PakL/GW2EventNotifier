@@ -19,18 +19,25 @@ import java.security.cert.CertificateFactory;
 
 public class GW2EvNoMain {
 
+	private final StartupFrame sf;
+
 	public WorldNames worlds;
 	public MapNames maps;
 	public EventNames events;
 
 	public GW2EvNoMain() {
-		StartupFrame sf = new StartupFrame(this);
+		sf = new StartupFrame(this);
+		this.loadLanguage(Configuration.language);
+	}
 
-		worlds = new WorldNames();
+	public void loadLanguage(String language) {
+		sf.resetToLoading();
+
+		worlds = new WorldNames(language);
 		sf.setProgressValue(1);
-		maps = new MapNames();
+		maps = new MapNames(language);
 		sf.setProgressValue(2);
-		events = new EventNames();
+		events = new EventNames(language);
 		sf.setProgressValue(3);
 		sf.doneLoading();
 	}

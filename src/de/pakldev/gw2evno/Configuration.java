@@ -6,6 +6,7 @@ public class Configuration {
 
 	public static int worldIndex = 0;
 	public static int mapIndex = 0;
+	public static String language = "en";
 
 	public static void loadConfig() {
 		File configFile = new File("gw2evno.cfg");
@@ -25,18 +26,20 @@ public class Configuration {
 			} catch (Exception e) {}
 		}
 		String[] c = config.split("\n");
-		if( c.length >= 2 ) {
+		if( c.length >= 3 ) {
 			try {
 				Configuration.worldIndex = Integer.parseInt(c[0]);
 				Configuration.mapIndex = Integer.parseInt(c[1]);
+				Configuration.language = c[2];
 			} catch(Exception e) {}
 		}
 	}
 
 	public static void saveConfig() {
 		File configFile = new File("gw2evno.cfg");
-		String	config = Configuration.worldIndex + "\n";
-				config += Configuration.mapIndex;
+		String	config  = Configuration.worldIndex + "\n";
+				config += Configuration.mapIndex + "\n";
+				config += Configuration.language;
 
 		try {
 			OutputStream os = new FileOutputStream(configFile);

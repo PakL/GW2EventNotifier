@@ -12,11 +12,16 @@ import java.util.TreeMap;
 
 public class MapNames {
 
+	public static final String LANG_EN = "en";
+	public static final String LANG_DE = "de";
+	public static final String LANG_FR = "fr";
+	public static final String LANG_ES = "es";
+
 	private TreeMap<String, String> mapNames = new TreeMap<String, String>();
 
-	public MapNames() {
+	public MapNames(String language) {
 		try {
-			String mapNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/map_names.json?lang=de");
+			String mapNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/map_names.json?lang="+language);
 			JSONArray mapNames_ = (JSONArray) JSONValue.parse(mapNamesStr);
 			for(Object obj : mapNames_) {
 				JSONObject o = (JSONObject)obj;

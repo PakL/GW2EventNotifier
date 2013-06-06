@@ -2,6 +2,7 @@ package de.pakldev.gw2evno.gui;
 
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
+import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.Events;
 
 import javax.swing.*;
@@ -66,6 +67,7 @@ public class EventManager implements Runnable, ActionListener {
 
 	public void stop() {
 		running = false;
+		thisThread.interrupt();
 	}
 
 	@Override
@@ -102,14 +104,14 @@ public class EventManager implements Runnable, ActionListener {
 				int newState = newStates.get(eventId);
 				if( oldState != newState ) {
 					String eventName = main.events.getName(eventId);
-					if( eventName.startsWith("Fertigkeitsherausforderung") )
-						continue;
+					if( eventName.startsWith(Language.skillChallenge()) ) continue;
+
 					if( newState == Events.STATE_WARMUP ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />ist in der Aufwärmphase</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>");
 					} else if( newState == Events.STATE_PREPARATION ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />beginnt bald</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>");
 					} else if( newState == Events.STATE_ACTIVE ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />hat gerade begonnen</center></html>");
+						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>");
 					}
 				}
 			}
