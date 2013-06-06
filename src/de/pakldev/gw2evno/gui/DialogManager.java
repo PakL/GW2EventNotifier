@@ -1,7 +1,6 @@
 package de.pakldev.gw2evno.gui;
 
 import com.sun.awt.AWTUtilities;
-import de.pakldev.gw2evno.gw2api.Events;
 
 import java.awt.*;
 import java.util.HashMap;

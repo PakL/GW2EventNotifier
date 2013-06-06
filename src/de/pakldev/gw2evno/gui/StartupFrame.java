@@ -4,7 +4,6 @@ import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.MapNames;
-import de.pakldev.gw2evno.gw2api.WorldNames;
 
 import javax.swing.*;
 import java.awt.*;
