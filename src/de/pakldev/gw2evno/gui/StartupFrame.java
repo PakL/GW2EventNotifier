@@ -1,5 +1,6 @@
 package de.pakldev.gw2evno.gui;
 
+import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionEvent;
 public class StartupFrame extends JFrame {
 
 	private final GW2EvNoMain main;
-	private final EventManager eventManger;
+	private EventManager eventManger;
 
 	private SpringLayout layout = new SpringLayout();
 
@@ -20,7 +21,6 @@ public class StartupFrame extends JFrame {
 
 	public StartupFrame(GW2EvNoMain main) {
 		this.main = main;
-		this.eventManger = new EventManager(main, this);
 
 		this.setTitle("GW2 Event Notifier");
 		this.setSize(400, 200);
@@ -52,6 +52,14 @@ public class StartupFrame extends JFrame {
 		this.showLoadedGUI();
 	}
 
+	public int getWorldIndex() {
+		return worldBox.getSelectedIndex();
+	}
+
+	public int getMapIndex() {
+		return mapBox.getSelectedIndex();
+	}
+
 	private void showLoadedGUI() {
 		final Container contentPane = this.getContentPane();
 
@@ -65,7 +73,10 @@ public class StartupFrame extends JFrame {
 		layout.putConstraint(SpringLayout.NORTH, worldBox, 0, SpringLayout.NORTH, lblWorldBox);
 		layout.putConstraint(SpringLayout.WEST, worldBox, 5, SpringLayout.EAST, lblWorldBox);
 		layout.putConstraint(SpringLayout.EAST, worldBox, -5, SpringLayout.EAST, contentPane);
-		contentPane.add(worldBox); worldBox.addActionListener(eventManger);worldBox.setActionCommand("worldChanged");
+		contentPane.add(worldBox); worldBox.setActionCommand("worldChanged");
+		if( worldBox.getItemCount() > Configuration.worldIndex ) {
+			worldBox.setSelectedIndex(Configuration.worldIndex);
+		}
 
 		layout.putConstraint(SpringLayout.SOUTH, lblWorldBox, 0, SpringLayout.SOUTH, worldBox);
 
@@ -79,17 +90,23 @@ public class StartupFrame extends JFrame {
 		layout.putConstraint(SpringLayout.NORTH, mapBox, 0, SpringLayout.NORTH, lblMapBox);
 		layout.putConstraint(SpringLayout.WEST, mapBox, 5, SpringLayout.EAST, lblMapBox);
 		layout.putConstraint(SpringLayout.EAST, mapBox, -5, SpringLayout.EAST, contentPane);
-		contentPane.add(mapBox); mapBox.addActionListener(eventManger);mapBox.setActionCommand("mapChanged");
+		contentPane.add(mapBox); mapBox.setActionCommand("mapChanged");
+		if( mapBox.getItemCount() > Configuration.mapIndex ) {
+			mapBox.setSelectedIndex(Configuration.mapIndex);
+		}
 
 		layout.putConstraint(SpringLayout.SOUTH, lblMapBox, 0, SpringLayout.SOUTH, mapBox);
+
+		eventManger = new EventManager(main, this);
+		worldBox.addActionListener(eventManger);
+		mapBox.addActionListener(eventManger);
+		eventManger.start();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				contentPane.validate();
 				contentPane.repaint();
-
-				eventManger.start();
 			}
 		});
 

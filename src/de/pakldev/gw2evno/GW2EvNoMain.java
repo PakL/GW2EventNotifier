@@ -42,6 +42,7 @@ public class GW2EvNoMain {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception ex) {}
 
+		Configuration.loadConfig();
 		new GW2EvNoMain();
 	}
 
@@ -76,6 +77,7 @@ public class GW2EvNoMain {
 				is.read(b, 1, a);
 				result += new String(b);
 			}
+			is.close();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), e.getClass().getName(), JOptionPane.ERROR_MESSAGE);
 			System.exit(0);

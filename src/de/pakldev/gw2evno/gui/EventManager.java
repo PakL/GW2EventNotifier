@@ -1,5 +1,6 @@
 package de.pakldev.gw2evno.gui;
 
+import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import de.pakldev.gw2evno.gw2api.Events;
 
@@ -27,6 +28,9 @@ public class EventManager implements Runnable, ActionListener {
 		this.main = main;
 		this.sf = sf;
 		dm = new DialogManager();
+
+		world = sf.getWorldIndex();
+		map = sf.getMapIndex();
 	}
 
 	@Override
@@ -38,6 +42,8 @@ public class EventManager implements Runnable, ActionListener {
 					int newWorld = cmbBox.getSelectedIndex();
 					lastEventState = Events.getEvents(main.worlds.getWorldIdAt(newWorld), main.maps.getMapIdAt(map));
 					world = newWorld;
+					Configuration.worldIndex = world;
+					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 				}
 			} else if( e.getActionCommand().equalsIgnoreCase("mapChanged") ) {
@@ -45,6 +51,8 @@ public class EventManager implements Runnable, ActionListener {
 					int newMap = cmbBox.getSelectedIndex();
 					lastEventState = Events.getEvents(main.worlds.getWorldIdAt(world), main.maps.getMapIdAt(newMap));
 					map = newMap;
+					Configuration.mapIndex = map;
+					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 				}
 			}
