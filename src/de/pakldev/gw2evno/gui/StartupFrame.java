@@ -53,6 +53,15 @@ public class StartupFrame extends JFrame {
 		return mapBox.getSelectedIndex();
 	}
 
+	public void setMapIndex(int i) {
+		if( mapBox != null ) {
+			mapBox.setSelectedIndex(i);
+			if( eventManger != null ) {
+				eventManger.actionPerformed(new ActionEvent(mapBox,-1,"mapChanged"));
+			}
+		}
+	}
+
 	public void resetToLoading() {
 		if( eventManger != null ) {
 			eventManger.stop();

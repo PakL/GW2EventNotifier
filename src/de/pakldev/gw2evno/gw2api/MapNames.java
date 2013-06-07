@@ -42,6 +42,14 @@ public class MapNames {
 		return mapNames;
 	}
 
+	public String getMap(String id) {
+		for(String key : mapNames.keySet()) {
+			if( key.equalsIgnoreCase(id) )
+				return mapNames.get(key);
+		}
+		return "";
+	}
+
 	public String searchMap(String search) {
 		search = search.toLowerCase();
 		for(String key : mapNames.keySet()) {

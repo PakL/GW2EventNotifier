@@ -41,6 +41,14 @@ public class WorldNames {
 		return worldNames;
 	}
 
+	public String getWorld(String id) {
+		for(String key : worldNames.keySet()) {
+			if( key.equalsIgnoreCase(id) )
+				return worldNames.get(key);
+		}
+		return "";
+	}
+
 	public String getWorldIdAt(int index) {
 		int i = 0;
 		for(String key : worldNames.keySet()) {

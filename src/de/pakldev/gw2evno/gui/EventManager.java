@@ -50,6 +50,8 @@ public class EventManager implements Runnable, ActionListener {
 					Configuration.worldIndex = world;
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
+
+					System.out.println("World changed to " + main.worlds.getWorld(main.worlds.getWorldIdAt(world)));
 				}
 			} else if( e.getActionCommand().equalsIgnoreCase("mapChanged") ) {
 				if( map != cmbBox.getSelectedIndex() ) {
@@ -59,6 +61,8 @@ public class EventManager implements Runnable, ActionListener {
 					Configuration.mapIndex = map;
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
+
+					System.out.println("Map changed to " + main.maps.getMap(main.maps.getMapIdAt(map)));
 				}
 			}
 		}
