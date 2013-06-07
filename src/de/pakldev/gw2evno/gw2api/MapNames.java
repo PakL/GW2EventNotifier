@@ -1,6 +1,7 @@
 package de.pakldev.gw2evno.gw2api;
 
 
+import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -41,6 +42,30 @@ public class MapNames {
 		return mapNames;
 	}
 
+	public String searchMap(String search) {
+		search = search.toLowerCase();
+		for(String key : mapNames.keySet()) {
+			String name = mapNames.get(key).toLowerCase();
+			if( name.startsWith(search) ) return key;
+			String[] splits = name.split(" |\\-");
+			for(String split : splits) {
+				if( split.startsWith(search) ) return key;
+			}
+			if( name.contains(search) ) return key;
+
+			if( name.replaceAll("\\-", " ").startsWith(search) ) return key;
+			if( name.replaceAll("\\-", " ").contains(search			) ) return key;
+
+			if( name.replaceAll(" ", "").startsWith(search) ) return key;
+			if( name.replaceAll(" ", "").contains(search) ) return key;
+
+			if( name.replaceAll("\\-| ", "").startsWith(search) ) return key;
+			if( name.replaceAll("\\-| ", "").contains(search) ) return key;
+		}
+
+		return "";
+	}
+
 	public String getMapIdAt(int index) {
 		int i = 0;
 		for(String key : mapNames.keySet()) {
@@ -48,6 +73,16 @@ public class MapNames {
 			i++;
 		}
 		return "";
+	}
+
+	public int getIndexByMapId(String id) {
+		int i = 0;
+		for(String key : mapNames.keySet()) {
+			if( key.equalsIgnoreCase(id) ) return i;
+			i++;
+		}
+
+		return Configuration.mapIndex;
 	}
 
 }
