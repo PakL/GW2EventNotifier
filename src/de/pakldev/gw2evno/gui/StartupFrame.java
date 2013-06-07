@@ -30,7 +30,7 @@ public class StartupFrame extends JFrame {
 		this.main = main;
 
 		this.setTitle("GW2 Event Notifier");
-		this.setSize(400, 200);
+		this.setSize(400, 220);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,6 +164,13 @@ public class StartupFrame extends JFrame {
 		}
 
 		layout.putConstraint(SpringLayout.SOUTH, lblMapBox, 0, SpringLayout.SOUTH, mapBox);
+
+		JLabel helpMessage = new JLabel("<html>"+Language.helpMessage()+"</html>");
+		layout.putConstraint(SpringLayout.NORTH, helpMessage, 5, SpringLayout.SOUTH, mapBox);
+		layout.putConstraint(SpringLayout.WEST, helpMessage, 5, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.EAST, helpMessage, -5, SpringLayout.EAST, contentPane);
+		layout.putConstraint(SpringLayout.SOUTH, helpMessage, -5, SpringLayout.NORTH, progressBar);
+		contentPane.add(helpMessage);
 
 		eventManger = new EventManager(main, this);
 		worldBox.addActionListener(eventManger);

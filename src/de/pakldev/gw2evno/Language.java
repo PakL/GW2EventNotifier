@@ -69,4 +69,16 @@ public class Language {
 		return skillLang;
 	}
 
+	public static String helpMessage() {
+		String helpLang = "To change to map quicker press CTRL+Backspace (everywhere, in game works too). A dialog should pop up to easily enter and search a map by its name. Press Enter when you found the right map or press ESC to cancel.";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) )
+			helpLang = "Um die Karte schneller zu wechseln drücke STRG+Rücktaste (überall, im Spiel funktioniert auch). Ein Dialog sollte nun erscheinen wo du einfach den Kartennamen eingeben und suchen kannst. Drücke Enter wenn du deine Karte gefunden hast oder ESC um abzubrechen.";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) )
+			helpLang = "Pour modifier pour cartographier rapidement appuyez sur CTRL+Backspace (partout, dans le jeu fonctionne aussi). Une boîte de dialogue devrait apparaître pour entrer facilement et rechercher une carte par son nom. Appuyez sur Entrée lorsque vous avez trouvé la bonne carte ou appuyez sur ESC pour annuler. <i>(Translated by Google Translator)</i>";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) )
+			helpLang = "Para cambiar a asignar más rápido presione CTRL+Backspace (en todas partes, en el juego también funciona). Un cuadro de diálogo debería aparecer para entrar y buscar en el mapa por su nombre. Pulse Intro cuando encontraste el mapa de la derecha o presione ESC para cancelar. <i>(Translated by Google Translator)</i>";
+
+		return helpLang;
+	}
+
 }
