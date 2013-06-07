@@ -23,7 +23,12 @@ public class Configuration {
 					config += new String(b);
 				}
 				is.close();
-			} catch (Exception e) {}
+				System.out.println("Configuration loaded with no error.");
+			} catch (Exception e) {
+				System.err.println("Error loading configuration: "+e.getMessage());
+			}
+		} else {
+			System.out.println("Default configuration loaded.");
 		}
 		String[] c = config.split("\n");
 		if( c.length >= 3 ) {
@@ -46,7 +51,11 @@ public class Configuration {
 			os.write(config.getBytes());
 			os.flush();
 			os.close();
-		} catch(Exception e) {}
+
+			System.out.println("Configuration saved with no error.");
+		} catch(Exception e) {
+			System.err.println("Error saving configuration: "+e.getMessage());
+		}
 	}
 
 }

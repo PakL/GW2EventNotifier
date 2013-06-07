@@ -29,11 +29,13 @@ public class GW2EvNoMain {
 	public EventNames events;
 
 	public GW2EvNoMain() {
+		System.out.println("Start up GUI");
 		sf = new StartupFrame(this);
 		this.loadLanguage(Configuration.language);
 	}
 
 	public void loadLanguage(String language) {
+		System.out.println("Loading language files for '" + language + "'");
 		sf.resetToLoading();
 
 		worlds = new WorldNames(language);
@@ -46,22 +48,29 @@ public class GW2EvNoMain {
 	}
 
 	public static void main(String[] args) throws Exception {
+		System.out.println("Forcing default file encoding to utf-8");
 		System.setProperty("file.encoding","UTF-8");
 		Field charset = Charset.class.getDeclaredField("defaultCharset");
 		charset.setAccessible(true);
 		charset.set(null,null);
 
-
+		System.out.println("Creating keystore from ssl certificate");
 		GW2EvNoMain.importSSLCert();
+		System.out.println("Loading images");
 		Events.loadImages();
+		System.out.println("Loading event names to guess the related icon");
 		EventNames.guessEventIcons();
 
 		try {
+			System.out.println("Setting system look and feel");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception ex) {}
 
+		System.out.println("Loading configuration");
 		Configuration.loadConfig();
+		System.out.println("Loading InterestingEvents");
 		InterestingEvents.loadInterestingEvents();
+
 		new GW2EvNoMain();
 	}
 
