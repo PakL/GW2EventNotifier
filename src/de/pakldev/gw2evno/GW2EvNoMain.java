@@ -8,10 +8,7 @@ import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.gw2api.WorldNames;
 
 import javax.swing.*;
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,8 +51,12 @@ public class GW2EvNoMain {
 		charset.setAccessible(true);
 		charset.set(null,null);
 
-		System.out.println("Creating keystore from ssl certificate");
-		GW2EvNoMain.importSSLCert();
+		if( !new File("guildwars2.com.keystore").exists() ){
+			System.out.println("Creating keystore from ssl certificate");
+			GW2EvNoMain.importSSLCert();
+		}
+		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
+
 		System.out.println("Loading images");
 		Events.loadImages();
 		System.out.println("Loading event names to guess the related icon");
@@ -89,7 +90,6 @@ public class GW2EvNoMain {
 
 		ks.setCertificateEntry("SGCert", cert);
 		ks.store(new FileOutputStream("guildwars2.com.keystore"), "secret".toCharArray());
-		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
 	}
 
 	public static String loadURL(String urlStr) throws MalformedURLException {
