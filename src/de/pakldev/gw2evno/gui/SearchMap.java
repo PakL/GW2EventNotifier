@@ -20,9 +20,10 @@ public class SearchMap extends JDialog implements ActionListener, KeyListener {
 		this.main = main;
 		this.sf = sf;
 
+		this.setTitle("GW2 Event Notifier");
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);
-		this.setSize(300, 150);
+		this.setSize(300, 120);
 		this.setLocationRelativeTo(null);
 
 		SpringLayout layout = new SpringLayout();
@@ -36,12 +37,14 @@ public class SearchMap extends JDialog implements ActionListener, KeyListener {
 		layout.putConstraint(SpringLayout.SOUTH, txtSearch, 30, SpringLayout.NORTH, txtSearch);
 		txtSearch.addKeyListener(this);
 		txtSearch.addActionListener(this);
+		contentPane.add(txtSearch);
 
 		lblResult = new JLabel(""); lblResult.setFont(lblResult.getFont().deriveFont(20f));
 		layout.putConstraint(SpringLayout.SOUTH, lblResult, -10, SpringLayout.SOUTH, contentPane);
 		layout.putConstraint(SpringLayout.WEST, lblResult, 10, SpringLayout.WEST, contentPane);
 		layout.putConstraint(SpringLayout.EAST, lblResult, -10, SpringLayout.EAST, contentPane);
-		layout.putConstraint(SpringLayout.SOUTH, lblResult, 10, SpringLayout.SOUTH, txtSearch);
+		layout.putConstraint(SpringLayout.NORTH, lblResult, 10, SpringLayout.SOUTH, txtSearch);
+		contentPane.add(lblResult);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -52,6 +55,8 @@ public class SearchMap extends JDialog implements ActionListener, KeyListener {
 			}
 		});
 		this.setVisible(true);
+		this.requestFocus();
+		txtSearch.requestFocus();
 	}
 
 

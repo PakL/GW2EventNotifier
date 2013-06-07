@@ -1,5 +1,8 @@
 package de.pakldev.gw2evno.gui;
 
+import com.tulskiy.keymaster.common.HotKey;
+import com.tulskiy.keymaster.common.HotKeyListener;
+import com.tulskiy.keymaster.common.Provider;
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import de.pakldev.gw2evno.Language;
@@ -14,6 +17,7 @@ public class StartupFrame extends JFrame {
 
 	private final GW2EvNoMain main;
 	private EventManager eventManger;
+	private Provider provider = null;
 
 	private SpringLayout layout = new SpringLayout();
 
@@ -65,6 +69,10 @@ public class StartupFrame extends JFrame {
 	public void resetToLoading() {
 		if( eventManger != null ) {
 			eventManger.stop();
+		}
+		if( provider != null ) {
+			provider.reset();
+			provider.stop();
 		}
 
 		final Container contentPane = this.getContentPane();
@@ -161,6 +169,15 @@ public class StartupFrame extends JFrame {
 		worldBox.addActionListener(eventManger);
 		mapBox.addActionListener(eventManger);
 		eventManger.start();
+
+		provider = Provider.getCurrentProvider(false);
+		final StartupFrame sf = this;
+		provider.register(KeyStroke.getKeyStroke("control BACK_SPACE"), new HotKeyListener() {
+			@Override
+			public void onHotKey(HotKey hotKey) {
+				new SearchMap(main, sf);
+			}
+		});
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
