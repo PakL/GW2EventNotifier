@@ -143,11 +143,11 @@ public class EventManager implements Runnable, ActionListener {
 				if( eventName.startsWith(Language.skillChallenge()) ) continue;
 
 				if( newState == Events.STATE_WARMUP ) {
-					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.warmup() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_PREPARATION ) {
-					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.preparation() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_ACTIVE ) {
-					dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.active() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				}
 
 				interestingState.put(eventId, newState);

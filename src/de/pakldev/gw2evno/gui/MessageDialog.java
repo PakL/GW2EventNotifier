@@ -61,9 +61,6 @@ public class MessageDialog extends JDialog implements Runnable {
 		if( interesting ) {
 			this.setBackground(Color.RED);
 			this.getContentPane().setBackground(Color.RED);
-
-			this.setForeground(Color.WHITE);
-			this.getContentPane().setForeground(Color.WHITE);
 		} else {
 			this.setBackground(Color.WHITE);
 			this.getContentPane().setBackground(Color.WHITE);
@@ -74,16 +71,16 @@ public class MessageDialog extends JDialog implements Runnable {
 
 		JLabel iconlbl = new JLabel(new ImageIcon(icon));
 		layout.putConstraint(SpringLayout.NORTH, iconlbl, 18, SpringLayout.NORTH, getContentPane());
-		layout.putConstraint(SpringLayout.WEST, iconlbl, 20, SpringLayout.WEST, getContentPane());
+		layout.putConstraint(SpringLayout.WEST, iconlbl, 10, SpringLayout.WEST, getContentPane());
 		layout.putConstraint(SpringLayout.EAST, iconlbl, 64, SpringLayout.WEST, iconlbl);
 		layout.putConstraint(SpringLayout.SOUTH, iconlbl, 64, SpringLayout.NORTH, iconlbl);
 		this.getContentPane().add(iconlbl);
 
 		JLabel msg = new JLabel(message, JLabel.CENTER);
-		layout.putConstraint(SpringLayout.NORTH, msg, 20, SpringLayout.NORTH, getContentPane());
-		layout.putConstraint(SpringLayout.EAST, msg, -20, SpringLayout.EAST, getContentPane());
-		layout.putConstraint(SpringLayout.SOUTH, msg, -20, SpringLayout.SOUTH, getContentPane());
-		layout.putConstraint(SpringLayout.WEST, msg, 20, SpringLayout.EAST, iconlbl);
+		layout.putConstraint(SpringLayout.NORTH, msg, 0, SpringLayout.NORTH, getContentPane());
+		layout.putConstraint(SpringLayout.EAST, msg, -10, SpringLayout.EAST, getContentPane());
+		layout.putConstraint(SpringLayout.SOUTH, msg, -0, SpringLayout.SOUTH, getContentPane());
+		layout.putConstraint(SpringLayout.WEST, msg, 10, SpringLayout.EAST, iconlbl);
 		this.getContentPane().add(msg);
 
 		this.setVisible(true);
