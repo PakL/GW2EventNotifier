@@ -18,9 +18,11 @@ public class DialogManager {
 		}
 		dialogs.put(i, md);
 		md.setLocation(md.getX(), md.getY()-(100*(i-1)));
+		System.out.println("[Dialog] New" + (interesting ? " interesting" : "") + " dialog created");
 	}
 
 	public void closeDialog(MessageDialog dialog) {
+		System.out.println("[Dialog] Dialog fading out");
 		new Thread(new ClosingAnimation(dialog)).start();
 	}
 
@@ -34,6 +36,7 @@ public class DialogManager {
 		dialogs = dialogs_;
 		dialog.setVisible(false);
 		dialog.dispose();
+		System.out.println("[Dialog] Dialog removed");
 	}
 
 	class ClosingAnimation implements Runnable {

@@ -24,9 +24,9 @@ public class InterestingEvents {
 				os.write(evid.getBytes());
 				os.flush();
 				os.close();
-				System.out.println("Default InterestingEvents file created.");
+				System.out.println("[Config] Default InterestingEvents file created.");
 			} catch(Exception e) {
-				System.err.println("Error creating InterestingEvents file: "+e.getMessage());
+				System.err.println("[Config] Error creating InterestingEvents file: "+e.getMessage());
 			}
 		}
 		try {
@@ -40,9 +40,9 @@ public class InterestingEvents {
 				evid += new String(b);
 			}
 			is.close();
-			System.out.println("Interesting Events loaded with no error.");
+			System.out.println("[Config] Interesting Events loaded with no error.");
 		} catch (Exception e) {
-			System.err.println("Error loadgin InterestingEvents file: "+e.getMessage());
+			System.err.println("[Config] Error loadgin InterestingEvents file: "+e.getMessage());
 		}
 		String[] eventIds = evid.split("\n");
 	}

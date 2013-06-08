@@ -23,12 +23,12 @@ public class Configuration {
 					config += new String(b);
 				}
 				is.close();
-				System.out.println("Configuration loaded with no error.");
+				System.out.println("[Config] Configuration loaded with no error.");
 			} catch (Exception e) {
-				System.err.println("Error loading configuration: "+e.getMessage());
+				System.err.println("[Config] Error loading configuration: "+e.getMessage());
 			}
 		} else {
-			System.out.println("Default configuration loaded.");
+			System.out.println("[Config] Default configuration loaded.");
 		}
 		String[] c = config.split("\n");
 		if( c.length >= 3 ) {
@@ -52,9 +52,9 @@ public class Configuration {
 			os.flush();
 			os.close();
 
-			System.out.println("Configuration saved with no error.");
+			System.out.println("[Config] Configuration saved with no error.");
 		} catch(Exception e) {
-			System.err.println("Error saving configuration: "+e.getMessage());
+			System.err.println("[Config] Error saving configuration: "+e.getMessage());
 		}
 	}
 

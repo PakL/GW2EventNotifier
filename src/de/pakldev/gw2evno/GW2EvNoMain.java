@@ -54,29 +54,29 @@ public class GW2EvNoMain {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Forcing default file encoding to utf-8");
+		System.out.println("[System] Forcing default file encoding to utf-8");
 		System.setProperty("file.encoding","UTF-8");
 		Field charset = Charset.class.getDeclaredField("defaultCharset");
 		charset.setAccessible(true);
 		charset.set(null,null);
 
 		if( !new File("guildwars2.com.keystore").exists() ){
-			System.out.println("Creating keystore from ssl certificate");
+			System.out.println("[System] Creating keystore from ssl certificate");
 			GW2EvNoMain.importSSLCert();
 		}
 		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
 
 
 		try {
-			System.out.println("Setting system look and feel");
+			System.out.println("[System] Setting system look and feel");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception ex) {}
 
-		System.out.println("Loading configuration");
+		System.out.println("[System] Loading configuration");
 		Configuration.loadConfig();
-		System.out.println("Loading InterestingEvents");
+		System.out.println("[System] Loading InterestingEvents");
 		InterestingEvents.loadInterestingEvents();
-		System.out.println("Loading images");
+		System.out.println("[System] Loading images");
 		Events.loadImages();
 
 		new GW2EvNoMain();
@@ -104,6 +104,7 @@ public class GW2EvNoMain {
 		String result = "";
 		try {
 			InputStream is = url.openStream();
+			System.out.println("[HTTP] Loading " + urlStr + "...");
 			int r = -1;
 			while((r = is.read()) >= 0) {
 				int a = is.available();
@@ -113,6 +114,7 @@ public class GW2EvNoMain {
 				result += new String(b);
 			}
 			is.close();
+			System.out.println("[HTTP] Downloading file successfull: " + result.getBytes().length + " bytes");
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), e.getClass().getName(), JOptionPane.ERROR_MESSAGE);
 			System.exit(0);

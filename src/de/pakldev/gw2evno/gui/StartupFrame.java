@@ -74,6 +74,7 @@ public class StartupFrame extends JFrame {
 	}
 
 	public void resetToLoading() {
+		System.out.println("[GUI] Setting GUI to loading only");
 		if( eventManger != null ) {
 			eventManger.stop();
 		}
@@ -94,6 +95,7 @@ public class StartupFrame extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("[GUI] Repainting...");
 				contentPane.validate();
 				contentPane.repaint();
 			}
@@ -105,6 +107,7 @@ public class StartupFrame extends JFrame {
 	}
 
 	private void showLoadedGUI() {
+		System.out.println("[GUI] Setting GUI to working interface");
 		final Container contentPane = this.getContentPane();
 
 		JLabel lblLangBox = new JLabel(Language.language()+":");
@@ -182,6 +185,7 @@ public class StartupFrame extends JFrame {
 		worldBox.addActionListener(eventManger);
 		mapBox.addActionListener(eventManger);
 		eventManger.start();
+		System.out.println("[System] EventManager started");
 
 		if( provider == null ) provider = Provider.getCurrentProvider(false);
 		final StartupFrame sf = this;
@@ -195,6 +199,7 @@ public class StartupFrame extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("[GUI] Repainting...");
 				contentPane.validate();
 				contentPane.repaint();
 			}

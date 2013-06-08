@@ -64,6 +64,7 @@ public class SearchMap extends JDialog implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		this.setVisible(false);
 		if( !resultId.isEmpty() ) {
+			System.out.println("[GUI] Setting new map by search");
 			sf.setMapIndex(main.maps.getIndexByMapId(resultId));
 		}
 		dispose();

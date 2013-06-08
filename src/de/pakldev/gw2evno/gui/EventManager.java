@@ -51,7 +51,7 @@ public class EventManager implements Runnable, ActionListener {
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 
-					System.out.println("World changed to " + main.worlds.getWorld(main.worlds.getWorldIdAt(world)));
+					System.out.println("[GUI] World changed to " + main.worlds.getWorld(main.worlds.getWorldIdAt(world)));
 				}
 			} else if( e.getActionCommand().equalsIgnoreCase("mapChanged") ) {
 				if( map != cmbBox.getSelectedIndex() ) {
@@ -62,7 +62,7 @@ public class EventManager implements Runnable, ActionListener {
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 
-					System.out.println("Map changed to " + main.maps.getMap(main.maps.getMapIdAt(map)));
+					System.out.println("[GUI] Map changed to " + main.maps.getMap(main.maps.getMapIdAt(map)));
 				}
 			}
 		}
@@ -87,6 +87,7 @@ public class EventManager implements Runnable, ActionListener {
 			int timeFinished = (int) (System.currentTimeMillis()-lastUpdate);
 			sf.setProgressValue(timeFinished);
 			if( timeFinished >= 15000 ) {
+				System.out.println("[System] Checking for new states");
 				this.checkForNewStates();
 				lastUpdate = System.currentTimeMillis();
 			}
