@@ -6,6 +6,7 @@ public class Configuration {
 
 	public static int worldIndex = 0;
 	public static int mapIndex = 0;
+	public static int timeout = 15;
 	public static String language = "en";
 
 	public static void loadConfig() {
@@ -31,11 +32,13 @@ public class Configuration {
 			System.out.println("[Config] Default configuration loaded.");
 		}
 		String[] c = config.split("\n");
-		if( c.length >= 3 ) {
+		if( c.length == 4 ) {
 			try {
 				Configuration.worldIndex = Integer.parseInt(c[0]);
 				Configuration.mapIndex = Integer.parseInt(c[1]);
-				Configuration.language = c[2];
+				Configuration.timeout = Integer.parseInt(c[2]);
+				if( Configuration.timeout < 10 ) Configuration.timeout = 10;
+				Configuration.language = c[3];
 			} catch(Exception e) {}
 		}
 	}
@@ -44,6 +47,7 @@ public class Configuration {
 		File configFile = new File("gw2evno.cfg");
 		String	config  = Configuration.worldIndex + "\n";
 				config += Configuration.mapIndex + "\n";
+				config += Configuration.timeout + "\n";
 				config += Configuration.language;
 
 		try {

@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 public class StartupFrame extends JFrame {
 
@@ -25,12 +27,13 @@ public class StartupFrame extends JFrame {
 
 	private JComboBox worldBox;
 	private JComboBox mapBox;
+	private JSpinner timeout;
 
 	public StartupFrame(GW2EvNoMain main) {
 		this.main = main;
 
 		this.setTitle("GW2 Event Notifier");
-		this.setSize(400, 220);
+		this.setSize(400, 300);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -178,8 +181,42 @@ public class StartupFrame extends JFrame {
 
 		layout.putConstraint(SpringLayout.SOUTH, lblMapBox, 0, SpringLayout.SOUTH, mapBox);
 
+		JLabel lblTimeout = new JLabel(Language.stateRefresh()+":");
+		layout.putConstraint(SpringLayout.NORTH, lblTimeout, 5, SpringLayout.SOUTH, mapBox);
+		layout.putConstraint(SpringLayout.WEST, lblTimeout, 5, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.EAST, lblTimeout, 150, SpringLayout.WEST, lblTimeout);
+		contentPane.add(lblTimeout);
+		JLabel lblSeconds = new JLabel(Language.seconds());
+		layout.putConstraint(SpringLayout.NORTH, lblSeconds, 0, SpringLayout.NORTH, lblTimeout);
+		layout.putConstraint(SpringLayout.EAST, lblSeconds, -5, SpringLayout.EAST, contentPane);
+		layout.putConstraint(SpringLayout.WEST, lblSeconds, -60, SpringLayout.EAST, lblSeconds);
+		contentPane.add(lblSeconds);
+
+		timeout = new JSpinner(new SpinnerNumberModel(Configuration.timeout, 10, 3600, 5));
+		layout.putConstraint(SpringLayout.NORTH, timeout, 0, SpringLayout.NORTH, lblTimeout);
+		layout.putConstraint(SpringLayout.WEST, timeout, 5, SpringLayout.EAST, lblTimeout);
+		layout.putConstraint(SpringLayout.EAST, timeout, -5, SpringLayout.WEST, lblSeconds);
+		contentPane.add(timeout);
+		timeout.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				SpinnerNumberModel nModel = (SpinnerNumberModel) timeout.getModel();
+				int step = (Integer)nModel.getStepSize();
+				int value = (Integer) timeout.getValue();
+				int newvalue = value+((step*e.getWheelRotation())*-1);
+				if( newvalue < 10 ) newvalue = 10;
+				if( newvalue > 3600 ) newvalue = 3600;
+				timeout.setValue(newvalue);
+			}
+		});
+
+		layout.putConstraint(SpringLayout.SOUTH, lblTimeout, 0, SpringLayout.SOUTH, timeout);
+		layout.putConstraint(SpringLayout.SOUTH, lblSeconds, 0, SpringLayout.SOUTH, timeout);
+
+
+
 		JLabel helpMessage = new JLabel("<html>"+Language.helpMessage()+"</html>");
-		layout.putConstraint(SpringLayout.NORTH, helpMessage, 5, SpringLayout.SOUTH, mapBox);
+		layout.putConstraint(SpringLayout.NORTH, helpMessage, 5, SpringLayout.SOUTH, timeout);
 		layout.putConstraint(SpringLayout.WEST, helpMessage, 5, SpringLayout.WEST, contentPane);
 		layout.putConstraint(SpringLayout.EAST, helpMessage, -5, SpringLayout.EAST, contentPane);
 		layout.putConstraint(SpringLayout.SOUTH, helpMessage, -5, SpringLayout.NORTH, progressBar);
@@ -188,6 +225,7 @@ public class StartupFrame extends JFrame {
 		eventManger = new EventManager(main, this);
 		worldBox.addActionListener(eventManger);
 		mapBox.addActionListener(eventManger);
+		timeout.addChangeListener(eventManger);
 		eventManger.start();
 		System.out.println("[System] EventManager started");
 

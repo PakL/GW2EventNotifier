@@ -45,8 +45,8 @@ public class Language {
 	public static String warmup() {
 		String skillLang = "is now in warmup phase";
 		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) skillLang = "ist in der Aufwärmphase";
-		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) skillLang = "est maintenant en phase d'échauffement";
-		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) skillLang = "se encuentra ahora en fase de calentamiento";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) skillLang = "est maintenant en phase de préparation";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) skillLang = "se encuentra ahora en fase de preparar";
 
 		return skillLang;
 	}
@@ -79,6 +79,24 @@ public class Language {
 			helpLang = "Para cambiar a asignar más rápido presione CTRL+Backspace (en todas partes, en el juego también funciona). Un cuadro de diálogo debería aparecer para entrar y buscar en el mapa por su nombre. Pulse Intro cuando encontraste el mapa de la derecha o presione ESC para cancelar. <i>(Translated by Google Translator)</i>";
 
 		return helpLang;
+	}
+
+	public static String stateRefresh(){
+		String mapLang = "Status refresh in";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) mapLang = "Statusaktualisierung in";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) mapLang = "Rafraîchissement de statut dans";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) mapLang = "Actualizar estado en";
+
+		return mapLang;
+	}
+
+	public static String seconds(){
+		String mapLang = "seconds";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) mapLang = "Sekunden";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) mapLang = "secondes";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) mapLang = "segundo";
+
+		return mapLang;
 	}
 
 }

@@ -8,12 +8,14 @@ import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventManager implements Runnable, ActionListener {
+public class EventManager implements Runnable, ActionListener, ChangeListener {
 
 	private final GW2EvNoMain main;
 	private final StartupFrame sf;
@@ -21,6 +23,8 @@ public class EventManager implements Runnable, ActionListener {
 
 	private int world = 0;
 	private int map = 0;
+	private int oldtimeout = 15;
+	private int newtimeout = 15;
 
 	private Map<String, Integer> lastEventState = null;
 	private Map<String, Integer> interestingState = null;
@@ -36,6 +40,8 @@ public class EventManager implements Runnable, ActionListener {
 
 		world = sf.getWorldIndex();
 		map = sf.getMapIndex();
+		oldtimeout = Configuration.timeout;
+		newtimeout = Configuration.timeout;
 	}
 
 	@Override
@@ -80,17 +86,28 @@ public class EventManager implements Runnable, ActionListener {
 
 	@Override
 	public void run() {
-		sf.setProgressMax(15000);
+		if( oldtimeout < 10 ) { oldtimeout = 10; newtimeout = 10; }
+		int timeout = (oldtimeout * 1000);
+
+		sf.setProgressMax(timeout);
 		sf.setProgressValue(0);
 
 		while(running) {
 			int timeFinished = (int) (System.currentTimeMillis()-lastUpdate);
 			sf.setProgressValue(timeFinished);
-			if( timeFinished >= 15000 ) {
+			if( timeFinished >= timeout ) {
 				sf.setProgressIndeterminate(true);
 				System.out.println("[System] Checking for new states");
 				this.checkForNewStates();
 				lastUpdate = System.currentTimeMillis();
+				if( oldtimeout != newtimeout ) {
+					if( newtimeout < 10 ) newtimeout = 10;
+					Configuration.timeout = newtimeout;
+					Configuration.saveConfig();
+					timeout = (newtimeout * 1000);
+					oldtimeout = newtimeout;
+					sf.setProgressMax(timeout);
+				}
 			}
 
 			try {
@@ -159,4 +176,11 @@ public class EventManager implements Runnable, ActionListener {
 		}
 	}
 
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if( e.getSource() instanceof JSpinner ) {
+			JSpinner spinner = (JSpinner) e.getSource();
+			newtimeout = (Integer) spinner.getValue();
+		}
+	}
 }
