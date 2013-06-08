@@ -99,4 +99,13 @@ public class Language {
 		return mapLang;
 	}
 
+	public static String interestingOnly() {
+		String mapLang = "Interesting events only";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) mapLang = "Nur interessante Events";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) mapLang = "Des événements intéressants seulement";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) mapLang = "Eventos de interés solamente";
+
+		return mapLang;
+	}
+
 }

@@ -25,6 +25,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	private int map = 0;
 	private int oldtimeout = 15;
 	private int newtimeout = 15;
+	private boolean interestingOnly = false;
 
 	private Map<String, Integer> lastEventState = null;
 	private Map<String, Integer> interestingState = null;
@@ -42,6 +43,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		map = sf.getMapIndex();
 		oldtimeout = Configuration.timeout;
 		newtimeout = Configuration.timeout;
+		interestingOnly = Configuration.interestingOnly;
 	}
 
 	@Override
@@ -120,31 +122,32 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	}
 
 	private void checkForNewStates() {
-		Map<String, Integer> newStates = Events.getEvents(main.worlds.getWorldIdAt(world), main.maps.getMapIdAt(map));
-		if( lastEventState == null ) {
-			lastEventState = newStates;
-			return;
-		}
-		for(String eventId : newStates.keySet()) {
-			if( lastEventState.containsKey(eventId) ) {
-				int oldState = lastEventState.get(eventId);
-				int newState = newStates.get(eventId);
-				if( oldState != newState ) {
-					String eventName = main.events.getName(eventId);
-					if( eventName.startsWith(Language.skillChallenge()) ) continue;
+		if( !interestingOnly ) {
+			Map<String, Integer> newStates = Events.getEvents(main.worlds.getWorldIdAt(world), main.maps.getMapIdAt(map));
+			if( lastEventState == null ) {
+				lastEventState = newStates;
+			}
+			for(String eventId : newStates.keySet()) {
+				if( lastEventState.containsKey(eventId) ) {
+					int oldState = lastEventState.get(eventId);
+					int newState = newStates.get(eventId);
+					if( oldState != newState ) {
+						String eventName = main.events.getName(eventId);
+						if( eventName.startsWith(Language.skillChallenge()) ) continue;
 
-					if( newState == Events.STATE_WARMUP ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
-					} else if( newState == Events.STATE_PREPARATION ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
-					} else if( newState == Events.STATE_ACTIVE ) {
-						dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
+						if( newState == Events.STATE_WARMUP ) {
+							dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
+						} else if( newState == Events.STATE_PREPARATION ) {
+							dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
+						} else if( newState == Events.STATE_ACTIVE ) {
+							dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
+						}
 					}
 				}
 			}
-		}
 
-		lastEventState = newStates;
+			lastEventState = newStates;
+		}
 
 		for(String eventId : InterestingEvents.eventIds) {
 			int newState = Events.getEvent(main.worlds.getWorldIdAt(world), eventId);
@@ -172,7 +175,6 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 				interestingState.put(eventId, newState);
 			}
 
-
 		}
 	}
 
@@ -181,6 +183,17 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		if( e.getSource() instanceof JSpinner ) {
 			JSpinner spinner = (JSpinner) e.getSource();
 			newtimeout = (Integer) spinner.getValue();
+		} else if( e.getSource() instanceof JCheckBox ) {
+			JCheckBox check = (JCheckBox) e.getSource();
+			if( check.isSelected() && !interestingOnly ) {
+				interestingOnly = true;
+				Configuration.interestingOnly = true;
+				Configuration.saveConfig();
+			} else if( !check.isSelected() && interestingOnly ) {
+				interestingOnly = false;
+				Configuration.interestingOnly = false;
+				Configuration.saveConfig();
+			}
 		}
 	}
 }

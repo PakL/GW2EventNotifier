@@ -8,6 +8,7 @@ public class Configuration {
 	public static int mapIndex = 0;
 	public static int timeout = 15;
 	public static String language = "en";
+	public static boolean interestingOnly = false;
 
 	public static void loadConfig() {
 		File configFile = new File("gw2evno.cfg");
@@ -32,13 +33,14 @@ public class Configuration {
 			System.out.println("[Config] Default configuration loaded.");
 		}
 		String[] c = config.split("\n");
-		if( c.length == 4 ) {
+		if( c.length == 5 ) {
 			try {
 				Configuration.worldIndex = Integer.parseInt(c[0]);
 				Configuration.mapIndex = Integer.parseInt(c[1]);
 				Configuration.timeout = Integer.parseInt(c[2]);
 				if( Configuration.timeout < 10 ) Configuration.timeout = 10;
 				Configuration.language = c[3];
+				if( c[4].equalsIgnoreCase("true") ) Configuration.interestingOnly = true;
 			} catch(Exception e) {}
 		}
 	}
@@ -48,7 +50,8 @@ public class Configuration {
 		String	config  = Configuration.worldIndex + "\n";
 				config += Configuration.mapIndex + "\n";
 				config += Configuration.timeout + "\n";
-				config += Configuration.language;
+				config += Configuration.language + "\n";
+				config += (Configuration.interestingOnly ? "true" : "false");
 
 		try {
 			OutputStream os = new FileOutputStream(configFile);

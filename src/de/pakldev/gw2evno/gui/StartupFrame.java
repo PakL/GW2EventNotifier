@@ -28,6 +28,7 @@ public class StartupFrame extends JFrame {
 	private JComboBox worldBox;
 	private JComboBox mapBox;
 	private JSpinner timeout;
+	private JCheckBox interestinonly;
 
 	public StartupFrame(GW2EvNoMain main) {
 		this.main = main;
@@ -146,6 +147,7 @@ public class StartupFrame extends JFrame {
 
 		layout.putConstraint(SpringLayout.SOUTH, lblLangBox, 0, SpringLayout.SOUTH, langBox);
 
+
 		JLabel lblWorldBox = new JLabel(Language.world()+":");
 		layout.putConstraint(SpringLayout.NORTH, lblWorldBox, 5, SpringLayout.SOUTH, langBox);
 		layout.putConstraint(SpringLayout.WEST, lblWorldBox, 5, SpringLayout.WEST, contentPane);
@@ -181,10 +183,11 @@ public class StartupFrame extends JFrame {
 
 		layout.putConstraint(SpringLayout.SOUTH, lblMapBox, 0, SpringLayout.SOUTH, mapBox);
 
+
 		JLabel lblTimeout = new JLabel(Language.stateRefresh()+":");
 		layout.putConstraint(SpringLayout.NORTH, lblTimeout, 5, SpringLayout.SOUTH, mapBox);
 		layout.putConstraint(SpringLayout.WEST, lblTimeout, 5, SpringLayout.WEST, contentPane);
-		layout.putConstraint(SpringLayout.EAST, lblTimeout, 150, SpringLayout.WEST, lblTimeout);
+		layout.putConstraint(SpringLayout.EAST, lblTimeout, 200, SpringLayout.WEST, lblTimeout);
 		contentPane.add(lblTimeout);
 		JLabel lblSeconds = new JLabel(Language.seconds());
 		layout.putConstraint(SpringLayout.NORTH, lblSeconds, 0, SpringLayout.NORTH, lblTimeout);
@@ -214,6 +217,21 @@ public class StartupFrame extends JFrame {
 		layout.putConstraint(SpringLayout.SOUTH, lblSeconds, 0, SpringLayout.SOUTH, timeout);
 
 
+		JLabel lblInterestingOnly = new JLabel(Language.interestingOnly()+":");
+		layout.putConstraint(SpringLayout.NORTH, lblInterestingOnly, 5, SpringLayout.SOUTH, timeout);
+		layout.putConstraint(SpringLayout.WEST, lblInterestingOnly, 5, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.EAST, lblInterestingOnly, 200, SpringLayout.WEST, lblInterestingOnly);
+		contentPane.add(lblInterestingOnly);
+
+		interestinonly = new JCheckBox();
+		layout.putConstraint(SpringLayout.NORTH, interestinonly, 0, SpringLayout.NORTH, lblInterestingOnly);
+		layout.putConstraint(SpringLayout.WEST, interestinonly, 5, SpringLayout.EAST, lblInterestingOnly);
+		layout.putConstraint(SpringLayout.EAST, interestinonly, -5, SpringLayout.EAST, contentPane);
+		contentPane.add(interestinonly);
+		if( Configuration.interestingOnly ) interestinonly.setSelected(true);
+
+		layout.putConstraint(SpringLayout.SOUTH, lblInterestingOnly, 0, SpringLayout.SOUTH, interestinonly);
+
 
 		JLabel helpMessage = new JLabel("<html>"+Language.helpMessage()+"</html>");
 		layout.putConstraint(SpringLayout.NORTH, helpMessage, 5, SpringLayout.SOUTH, timeout);
@@ -222,10 +240,12 @@ public class StartupFrame extends JFrame {
 		layout.putConstraint(SpringLayout.SOUTH, helpMessage, -5, SpringLayout.NORTH, progressBar);
 		contentPane.add(helpMessage);
 
+
 		eventManger = new EventManager(main, this);
 		worldBox.addActionListener(eventManger);
 		mapBox.addActionListener(eventManger);
 		timeout.addChangeListener(eventManger);
+		interestinonly.addChangeListener(eventManger);
 		eventManger.start();
 		System.out.println("[System] EventManager started");
 
