@@ -72,7 +72,6 @@ public class StartupFrame extends JFrame {
 		}
 		if( provider != null ) {
 			provider.reset();
-			provider.stop();
 		}
 
 		final Container contentPane = this.getContentPane();
@@ -177,7 +176,7 @@ public class StartupFrame extends JFrame {
 		mapBox.addActionListener(eventManger);
 		eventManger.start();
 
-		provider = Provider.getCurrentProvider(false);
+		if( provider == null ) provider = Provider.getCurrentProvider(false);
 		final StartupFrame sf = this;
 		provider.register(KeyStroke.getKeyStroke("control BACK_SPACE"), new HotKeyListener() {
 			@Override
