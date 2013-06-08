@@ -50,9 +50,13 @@ public class StartupFrame extends JFrame {
 
 	public void setProgressValue(int n) {
 		progressBar.setValue(n);
+		progressBar.setIndeterminate(false);
 	}
 	public void setProgressMax(int n) {
 		progressBar.setMaximum(n);
+	}
+	public void setProgressIndeterminate(boolean indeterminate){
+		progressBar.setIndeterminate(indeterminate);
 	}
 
 

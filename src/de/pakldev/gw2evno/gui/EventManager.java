@@ -87,6 +87,7 @@ public class EventManager implements Runnable, ActionListener {
 			int timeFinished = (int) (System.currentTimeMillis()-lastUpdate);
 			sf.setProgressValue(timeFinished);
 			if( timeFinished >= 15000 ) {
+				sf.setProgressIndeterminate(true);
 				System.out.println("[System] Checking for new states");
 				this.checkForNewStates();
 				lastUpdate = System.currentTimeMillis();
