@@ -31,17 +31,22 @@ public class GW2EvNoMain {
 		this.loadLanguage(Configuration.language);
 	}
 
-	public void loadLanguage(String language) {
-		System.out.println("Loading language files for '" + language + "'");
-		sf.resetToLoading();
+	public void loadLanguage(final String language) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Loading language files for '" + language + "'");
+				sf.resetToLoading();
 
-		worlds = new WorldNames(language);
-		sf.setProgressValue(1);
-		maps = new MapNames(language);
-		sf.setProgressValue(2);
-		events = new EventNames(language);
-		sf.setProgressValue(3);
-		sf.doneLoading();
+				worlds = new WorldNames(language);
+				sf.setProgressValue(1);
+				maps = new MapNames(language);
+				sf.setProgressValue(2);
+				events = new EventNames(language);
+				sf.setProgressValue(3);
+				sf.doneLoading();
+			}
+		}).start();
 	}
 
 	public static void main(String[] args) throws Exception {
