@@ -26,10 +26,10 @@ public class GW2EvNoMain {
 	public EventNames events;
 
 	public GW2EvNoMain() {
-		System.out.println("Start up GUI");
+		System.out.println("[System] Start up GUI");
 		sf = new StartupFrame(this);
 
-		System.out.println("Loading event names to guess the related icon");
+		System.out.println("[System] Loading event names to guess the related icon");
 		EventNames.guessEventIcons();
 
 		this.loadLanguage(Configuration.language);
@@ -39,15 +39,18 @@ public class GW2EvNoMain {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Loading language files for '" + language + "'");
+				System.out.println("[System] Loading language files for '" + language + "'");
 				sf.resetToLoading();
 
 				worlds = new WorldNames(language);
 				sf.setProgressValue(1);
+				System.out.println("[System] World names loaded");
 				maps = new MapNames(language);
 				sf.setProgressValue(2);
+				System.out.println("[System] Map names loaded");
 				events = new EventNames(language);
 				sf.setProgressValue(3);
+				System.out.println("[System] Event names loaded");
 				sf.doneLoading();
 			}
 		}).start();
