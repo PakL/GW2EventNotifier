@@ -28,6 +28,10 @@ public class GW2EvNoMain {
 	public GW2EvNoMain() {
 		System.out.println("Start up GUI");
 		sf = new StartupFrame(this);
+
+		System.out.println("Loading event names to guess the related icon");
+		EventNames.guessEventIcons();
+
 		this.loadLanguage(Configuration.language);
 	}
 
@@ -62,10 +66,6 @@ public class GW2EvNoMain {
 		}
 		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
 
-		System.out.println("Loading images");
-		Events.loadImages();
-		System.out.println("Loading event names to guess the related icon");
-		EventNames.guessEventIcons();
 
 		try {
 			System.out.println("Setting system look and feel");
@@ -76,6 +76,8 @@ public class GW2EvNoMain {
 		Configuration.loadConfig();
 		System.out.println("Loading InterestingEvents");
 		InterestingEvents.loadInterestingEvents();
+		System.out.println("Loading images");
+		Events.loadImages();
 
 		new GW2EvNoMain();
 	}

@@ -38,6 +38,13 @@ public class StartupFrame extends JFrame {
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(layout);
 
+		JLabel wait = new JLabel("<html><center>Please wait!<br />Bitte warten!<br />Attendez, s'il vous plaît!<br />Espere, por favor!</center></html>", JLabel.CENTER);
+		layout.putConstraint(SpringLayout.NORTH, wait, 0, SpringLayout.NORTH, contentPane);
+		layout.putConstraint(SpringLayout.EAST, wait, 0, SpringLayout.EAST, contentPane);
+		layout.putConstraint(SpringLayout.SOUTH, wait, 0, SpringLayout.SOUTH, contentPane);
+		layout.putConstraint(SpringLayout.WEST, wait, 0, SpringLayout.WEST, contentPane);
+		contentPane.add(wait);
+
 		this.setVisible(true);
 	}
 
