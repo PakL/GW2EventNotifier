@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 
 public class MessageDialog extends JDialog implements Runnable {
 
@@ -15,7 +16,7 @@ public class MessageDialog extends JDialog implements Runnable {
 	private boolean doNotAutoHide = false;
 	private Thread autoHide = null;
 
-	public MessageDialog(final DialogManager dm, String message, Image icon, boolean interesting) {
+	public MessageDialog(final DialogManager dm, String message, Image icon, final String wikiUrl, boolean interesting) {
 		this.dm = dm;
 
 		this.setUndecorated(true);
@@ -30,8 +31,17 @@ public class MessageDialog extends JDialog implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if( e.getSource() instanceof MessageDialog ) {
-					MessageDialog fr = (MessageDialog) e.getSource();
-					dm.closeDialog(fr);
+					if( e.getButton() == MouseEvent.BUTTON3 ) {
+						Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+						if( desktop != null && desktop.isSupported(Desktop.Action.BROWSE) ) {
+							try {
+								desktop.browse(new URI(wikiUrl));
+							} catch(Exception ex) {}
+						}
+					} else {
+						MessageDialog fr = (MessageDialog) e.getSource();
+						dm.closeDialog(fr);
+					}
 				}
 			}
 

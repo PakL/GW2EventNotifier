@@ -10,8 +10,8 @@ public class DialogManager {
 
 	private Map<Integer, MessageDialog> dialogs = new HashMap<Integer, MessageDialog>();
 
-	public void newDialog(String message, Image icon, boolean interesting) {
-		MessageDialog md = new MessageDialog(this, message, icon, interesting);
+	public void newDialog(String message, Image icon, String wikiUrl, boolean interesting) {
+		MessageDialog md = new MessageDialog(this, message, icon, wikiUrl, interesting);
 		int i = 1;
 		while( dialogs.containsKey(i) ) {
 			i++;

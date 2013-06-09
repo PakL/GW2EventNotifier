@@ -7,6 +7,7 @@ import org.json.simple.JSONValue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,9 @@ public class EventNames {
 	public static final String LANG_ES = "es";
 
 	private Map<String, String> eventNames = new HashMap<String, String>();
+
 	private static Map<String, Image> eventIcons = new HashMap<String, Image>();
+	private static Map<String, String> eventWiki = new HashMap<String, String>();
 
 	public EventNames(String language) {
 		try {
@@ -48,7 +51,12 @@ public class EventNames {
 					String oid = (String) o.get("id");
 					String oname = (String) o.get("name");
 
+					String formattedName = URLEncoder.encode(oname.replaceAll("\\.", "").replaceAll(" ", ".20"), "UTF-8").replaceAll("\\.20", "%20");
+					String url = "http://wiki.guildwars2.com/wiki/Special:Search/" + formattedName;
+					eventWiki.put(oid, url);
+
 					oname = oname.toLowerCase();
+
 
 					if(
 						oname.startsWith("stop") ||
@@ -106,6 +114,12 @@ public class EventNames {
 			return eventIcons.get(id);
 		}
 		return Events.ICON_OBJECT;
+	}
+	public static String getWikiURL(String id) {
+		if( eventWiki.containsKey(id) )  {
+			return eventWiki.get(id);
+		}
+		return "http://wiki.guildwars2.com/wiki/Special:Search/"+id;
 	}
 
 	public String getName(String id) {
