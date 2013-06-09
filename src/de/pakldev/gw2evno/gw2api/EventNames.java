@@ -106,4 +106,11 @@ public class EventNames {
 		return id;
 	}
 
+	public static int getEventType(String id) {
+		if( eventTypes.containsKey(id) ) {
+			return eventTypes.get(id);
+		}
+		return Events.TYPE_DYNAMIC;
+	}
+
 }

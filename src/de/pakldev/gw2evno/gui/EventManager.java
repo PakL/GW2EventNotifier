@@ -138,7 +138,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 
 			if( oldState != newState ) {
 				String eventName = main.events.getName(eventId);
-				if( eventName.startsWith(Language.skillChallenge()) ) continue;
+				if( EventNames.getEventType(eventId) == Events.TYPE_SKILL ) continue;
 
 				if( newState == Events.STATE_WARMUP ) {
 					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.warmup() + "</font></center></html>", EventNames.getIcon(eventId), true);
