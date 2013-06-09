@@ -1,12 +1,14 @@
 package de.pakldev.gw2evno.gw2api;
 
 import de.pakldev.gw2evno.GW2EvNoMain;
+import de.pakldev.gw2evno.Language;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class EventNames {
 	private Map<String, String> eventNames = new HashMap<String, String>();
 
 	private static Map<String, Image> eventIcons = new HashMap<String, Image>();
-	private static Map<String, String> eventWiki = new HashMap<String, String>();
+	private static Map<String, Integer> eventTypes = new HashMap<String, Integer>();
 
 	public EventNames(String language) {
 		try {
@@ -41,69 +43,45 @@ public class EventNames {
 		}
 	}
 
-	public static void guessEventIcons() {
+	public static void loadEventIcons() {
 		try {
-			String eventNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/event_names.json?lang=en");
+			InputStream is = GW2EvNoMain.class.getResourceAsStream("res/eventTypes.json");
+			String eventNamesStr = "";
+			int r = -1;
+			while( (r = is.read()) >= 0 ) {
+				int a = is.available();
+				byte[] b = new byte[a+1];
+				b[0] = (byte) r;
+				is.read(b, 1, a);
+				eventNamesStr += new String(b);
+			}
+			is.close();
+
 			JSONArray eventNames_ = (JSONArray)JSONValue.parse(eventNamesStr);
 			for(Object obj : eventNames_) {
 				JSONObject o = (JSONObject)obj;
-				if( o.containsKey("id") && o.containsKey("name") ) {
+				if( o.containsKey("id") && o.containsKey("icon") && o.containsKey("type") ) {
 					String oid = (String) o.get("id");
-					String oname = (String) o.get("name");
+					String icon = (String) o.get("icon");
+					String type = (String) o.get("type");
 
-					String formattedName = URLEncoder.encode(oname.replaceAll("\\.", "").replaceAll(" ", ".20"), "UTF-8").replaceAll("\\.20", "%20");
-					String url = "http://wiki.guildwars2.com/wiki/Special:Search/" + formattedName;
-					eventWiki.put(oid, url);
+					if( icon.equalsIgnoreCase("boss") ) eventIcons.put(oid, Events.ICON_KILL);
+					else if( icon.equalsIgnoreCase("cog") ) eventIcons.put(oid, Events.ICON_OBJECT);
+					else if( icon.equalsIgnoreCase("collect") ) eventIcons.put(oid, Events.ICON_COLLECT);
+					else if( icon.equalsIgnoreCase("fist") ) eventIcons.put(oid, Events.ICON_FIST);
+					else if( icon.equalsIgnoreCase("flag") ) eventIcons.put(oid, Events.ICON_CAPTURE);
+					else if( icon.equalsIgnoreCase("shield") ) eventIcons.put(oid, Events.ICON_PROTECT);
+					else if( icon.equalsIgnoreCase("star") ) eventIcons.put(oid, Events.ICON_STAR);
+					else if( icon.equalsIgnoreCase("swords") ) eventIcons.put(oid, Events.ICON_ATTACK);
+					else if( icon.equalsIgnoreCase("wrench") ) eventIcons.put(oid, Events.ICON_OBJECT);
+					else if( icon.equalsIgnoreCase("skill") ) eventIcons.put(oid, Events.ICON_SKILL);
+					else eventIcons.put(oid, Events.ICON_STAR);
 
-					oname = oname.toLowerCase();
+					if( type.equalsIgnoreCase("dynamic") ) eventTypes.put(oid, Events.TYPE_DYNAMIC);
+					else if( type.equalsIgnoreCase("group") ) eventTypes.put(oid, Events.TYPE_GROUP);
+					else if( type.equalsIgnoreCase("skill") ) eventTypes.put(oid, Events.TYPE_SKILL);
+					else eventTypes.put(oid, Events.TYPE_DYNAMIC);
 
-
-					if(
-						oname.startsWith("stop") ||
-						oname.startsWith("clear") ||
-						oname.startsWith("draw out") ||
-						oname.startsWith("beat") ||
-						oname.startsWith("attack")
-					) {
-						eventIcons.put(oid, Events.ICON_ATTACK);
-					} else if(
-						oname.startsWith("capture") ||
-						oname.startsWith("seize control") ||
-						oname.startsWith("hold") ||
-						oname.startsWith("fend off") ||
-						oname.startsWith("subdue and capture")
-					) {
-						eventIcons.put(oid, Events.ICON_CAPTURE);
-					} else if(
-						oname.startsWith("collect") ||
-						oname.startsWith("gather") ||
-						oname.startsWith("cull") ||
-						oname.startsWith("catch") ||
-						oname.startsWith("retake") ||
-						oname.startsWith("regain")
-					) {
-						eventIcons.put(oid, Events.ICON_COLLECT);
-					} else if(
-						oname.startsWith("kill") ||
-						oname.startsWith("defeat") ||
-						oname.startsWith("slay") ||
-						oname.startsWith("hunt")
-					) {
-						eventIcons.put(oid, Events.ICON_KILL);
-					} else if(
-						oname.startsWith("rescue") ||
-						oname.startsWith("defend") ||
-						oname.startsWith("escort") ||
-						oname.startsWith("help") ||
-						oname.startsWith("patrol") ||
-						oname.startsWith("support") ||
-						oname.startsWith("join") ||
-						oname.startsWith("save")
-					) {
-						eventIcons.put(oid, Events.ICON_PROTECT);
-					} else {
-						eventIcons.put(oid, Events.ICON_OBJECT);
-					}
 				}
 			}
 		} catch (Exception e) {}
@@ -115,15 +93,14 @@ public class EventNames {
 		}
 		return Events.ICON_OBJECT;
 	}
-	public static String getWikiURL(String id) {
-		if( eventWiki.containsKey(id) )  {
-			return eventWiki.get(id);
-		}
-		return "http://wiki.guildwars2.com/wiki/Special:Search/"+id;
-	}
 
 	public String getName(String id) {
 		if( eventNames.containsKey(id) ) {
+			if( eventTypes.containsKey(id) ) {
+				if( eventTypes.get(id) == Events.TYPE_GROUP ) {
+					return "[" + Language.group() + "] "+ eventNames.get(id);
+				}
+			}
 			return eventNames.get(id);
 		}
 		return id;

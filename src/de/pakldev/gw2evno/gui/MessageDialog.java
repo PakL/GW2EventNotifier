@@ -16,7 +16,7 @@ public class MessageDialog extends JDialog implements Runnable {
 	private boolean doNotAutoHide = false;
 	private Thread autoHide = null;
 
-	public MessageDialog(final DialogManager dm, String message, Image icon, final String wikiUrl, boolean interesting) {
+	public MessageDialog(final DialogManager dm, String message, Image icon, boolean interesting) {
 		this.dm = dm;
 
 		this.setUndecorated(true);
@@ -31,17 +31,8 @@ public class MessageDialog extends JDialog implements Runnable {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if( e.getSource() instanceof MessageDialog ) {
-					if( e.getButton() == MouseEvent.BUTTON3 ) {
-						Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-						if( desktop != null && desktop.isSupported(Desktop.Action.BROWSE) ) {
-							try {
-								desktop.browse(new URI(wikiUrl));
-							} catch(Exception ex) {}
-						}
-					} else {
-						MessageDialog fr = (MessageDialog) e.getSource();
-						dm.closeDialog(fr);
-					}
+					MessageDialog fr = (MessageDialog) e.getSource();
+					dm.closeDialog(fr);
 				}
 			}
 
@@ -80,10 +71,10 @@ public class MessageDialog extends JDialog implements Runnable {
 		this.getContentPane().setLayout(layout);
 
 		JLabel iconlbl = new JLabel(new ImageIcon(icon));
-		layout.putConstraint(SpringLayout.NORTH, iconlbl, 18, SpringLayout.NORTH, getContentPane());
+		layout.putConstraint(SpringLayout.NORTH, iconlbl, 34, SpringLayout.NORTH, getContentPane());
 		layout.putConstraint(SpringLayout.WEST, iconlbl, 10, SpringLayout.WEST, getContentPane());
-		layout.putConstraint(SpringLayout.EAST, iconlbl, 64, SpringLayout.WEST, iconlbl);
-		layout.putConstraint(SpringLayout.SOUTH, iconlbl, 64, SpringLayout.NORTH, iconlbl);
+		layout.putConstraint(SpringLayout.EAST, iconlbl, 32, SpringLayout.WEST, iconlbl);
+		layout.putConstraint(SpringLayout.SOUTH, iconlbl, 32, SpringLayout.NORTH, iconlbl);
 		this.getContentPane().add(iconlbl);
 
 		JLabel msg = new JLabel(message, JLabel.CENTER);

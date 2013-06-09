@@ -19,20 +19,30 @@ public class Events {
 	public final static int STATE_WARMUP = 4;
 	public final static int STATE_PREPARATION = 5;
 
+	public final static int TYPE_DYNAMIC = 10;
+	public final static int TYPE_GROUP = 11;
+	public final static int TYPE_SKILL = 12;
+
 	public static Image ICON_ATTACK;
 	public static Image ICON_CAPTURE;
 	public static Image ICON_COLLECT;
+	public static Image ICON_FIST;
 	public static Image ICON_KILL;
 	public static Image ICON_OBJECT;
 	public static Image ICON_PROTECT;
+	public static Image ICON_SKILL;
+	public static Image ICON_STAR;
 
 	public static void loadImages() throws IOException {
 		Events.ICON_ATTACK = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/attack_icon.png"));
 		Events.ICON_CAPTURE = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/capture_icon.png"));
 		Events.ICON_COLLECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/collect_icon.png"));
+		Events.ICON_FIST = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/fist_icon.png"));
 		Events.ICON_KILL = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/kill_icon.png"));
 		Events.ICON_OBJECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/object_icon.png"));
 		Events.ICON_PROTECT = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/protect_icon.png"));
+		Events.ICON_SKILL = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/skill_icon.png"));
+		Events.ICON_STAR = ImageIO.read(GW2EvNoMain.class.getResourceAsStream("res/star_icon.png"));
 	}
 
 	public static Map<String, Integer> getEvents(String worldId, String mapId) {

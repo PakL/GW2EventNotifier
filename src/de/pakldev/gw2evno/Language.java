@@ -108,4 +108,13 @@ public class Language {
 		return mapLang;
 	}
 
+	public static String group() {
+		String groupLang = "Group";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) groupLang = "Gruppe";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) groupLang = "Groupe";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) groupLang = "Grupo";
+
+		return groupLang;
+	}
+
 }

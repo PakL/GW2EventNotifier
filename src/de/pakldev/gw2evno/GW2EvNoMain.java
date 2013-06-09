@@ -30,7 +30,7 @@ public class GW2EvNoMain {
 		sf = new StartupFrame(this);
 
 		System.out.println("[System] Loading event names to guess the related icon");
-		EventNames.guessEventIcons();
+		EventNames.loadEventIcons();
 
 		this.loadLanguage(Configuration.language);
 	}
