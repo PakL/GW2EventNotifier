@@ -10,7 +10,9 @@ In-game you can just press CTRL+Backspace. A dialog will pop up to easily search
 
 The Guild Wars 2 API may allow to find your position in the future. Until then there is no other way.
 ***
-Download: [b001 2013-06-07](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b001.jar)
+Download: [b002 2013-06-09](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b002.jar)<br />
+Older versions:
+* [b001 2013-06-07](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b001.jar)
 
 Tested only on Windows 7 64bit w/ Java 1.7.0.<br />
 But should also work with Java 1.6.x and/or 32bit system. Don't know about MacOS or Linux, though.
