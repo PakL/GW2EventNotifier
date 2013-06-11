@@ -146,6 +146,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.preparation() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_ACTIVE ) {
 					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.active() + "</font></center></html>", EventNames.getIcon(eventId), true);
+				} else if( newState == Events.STATE_INACTIVE ) {
+					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.inactive() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				}
 				shown.add(eventId);
 
@@ -175,6 +177,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_ACTIVE ) {
 								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
+							} else if( newState == Events.STATE_INACTIVE ) {
+								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.inactive() + "</center></html>", EventNames.getIcon(eventId), false);
 							}
 						}
 					}

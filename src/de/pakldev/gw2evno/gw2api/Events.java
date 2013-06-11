@@ -18,6 +18,7 @@ public class Events {
 	public final static int STATE_ACTIVE = 3;
 	public final static int STATE_WARMUP = 4;
 	public final static int STATE_PREPARATION = 5;
+	public final static int STATE_INACTIVE = 6;
 
 	public final static int TYPE_DYNAMIC = 10;
 	public final static int TYPE_GROUP = 11;
@@ -64,6 +65,7 @@ public class Events {
 							else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
 							else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
 							else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
+							else if( stateStr.equalsIgnoreCase("Inactive") ) state = Events.STATE_INACTIVE;
 
 							result.put(eventId, state);
 						}

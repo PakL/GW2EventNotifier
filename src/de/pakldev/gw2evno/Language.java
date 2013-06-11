@@ -69,6 +69,15 @@ public class Language {
 		return skillLang;
 	}
 
+	public static String inactive() {
+		String skillLang = "is waiting to start";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) skillLang = "wartet auf Beginn";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) skillLang = "est en attente pour démarrer";
+		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) skillLang = "en espera de activación";
+
+		return skillLang;
+	}
+
 	public static String helpMessage() {
 		String helpLang = "To change to map quicker press CTRL+Backspace (everywhere, in game works too). A dialog should pop up to easily enter and search a map by its name. Press Enter when you found the right map or press ESC to cancel.";
 		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) )
