@@ -6,6 +6,7 @@ import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
 import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.gw2api.WorldNames;
+import de.pakldev.gw2evno.web.WebInterface;
 
 import javax.swing.*;
 import java.io.*;
@@ -19,7 +20,7 @@ import java.security.cert.CertificateFactory;
 
 public class GW2EvNoMain {
 
-	private final StartupFrame sf;
+	public final StartupFrame sf;
 
 	public WorldNames worlds;
 	public MapNames maps;
@@ -31,6 +32,9 @@ public class GW2EvNoMain {
 
 		System.out.println("[System] Loading event names to guess the related icon");
 		EventNames.loadEventIcons();
+
+		System.out.println("[System] Starting web interface");
+		new WebInterface(this);
 
 		this.loadLanguage(Configuration.language);
 	}

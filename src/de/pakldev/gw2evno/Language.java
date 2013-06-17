@@ -1,6 +1,7 @@
 package de.pakldev.gw2evno;
 
 
+import de.pakldev.gw2evno.gw2api.Events;
 import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.gw2api.WorldNames;
 
@@ -124,6 +125,44 @@ public class Language {
 		if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) groupLang = "Grupo";
 
 		return groupLang;
+	}
+
+	public static String state(int state) {
+		String stateLang = "Successful";
+
+		if( state == Events.STATE_SUCCESS ) {
+			stateLang = "Successful";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Erfolgreich";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "Succès";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "Exitosa";
+		} else if( state == Events.STATE_FAIL ) {
+			stateLang = "Failed";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Fehlgeschlagen";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "Échec";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "Error";
+		} else if( state == Events.STATE_ACTIVE ) {
+			stateLang = "Active";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Aktiv";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "Active";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "Activa";
+		} else if( state == Events.STATE_WARMUP ) {
+			stateLang = "Warming up";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Aufwärmen";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "L'échauffement";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "Calentamiento";
+		} else if( state == Events.STATE_PREPARATION ) {
+			stateLang = "About to begin";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Beginnt bald";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "Commencer";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "A punto de comenzar";
+		} else if( state == Events.STATE_INACTIVE ) {
+			stateLang = "Waiting/Inactive";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_DE) ) stateLang = "Wartet/Inaktiv";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_FR) ) stateLang = "Attente/Inactivité";
+			if( Configuration.language.equalsIgnoreCase(MapNames.LANG_ES) ) stateLang = "Espera/Inactividad";
+		}
+
+		return stateLang;
 	}
 
 }

@@ -91,7 +91,7 @@ public class EventNames {
 		if( eventIcons.containsKey(id) ) {
 			return eventIcons.get(id);
 		}
-		return Events.ICON_OBJECT;
+		return Events.ICON_STAR;
 	}
 
 	public String getName(String id) {
@@ -104,6 +104,10 @@ public class EventNames {
 			return eventNames.get(id);
 		}
 		return id;
+	}
+
+	public Map<String, String> getEvents() {
+		return eventNames;
 	}
 
 	public static int getEventType(String id) {

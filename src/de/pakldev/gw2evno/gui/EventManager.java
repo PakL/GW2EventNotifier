@@ -96,6 +96,9 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		sf.setProgressMax(timeout);
 		sf.setProgressValue(0);
 
+		System.out.println("[System] Checking for new states");
+		this.checkForNewStates();
+
 		while(running) {
 			int timeFinished = (int) (System.currentTimeMillis()-lastUpdate);
 			sf.setProgressValue(timeFinished);
@@ -206,5 +209,13 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 				Configuration.saveConfig();
 			}
 		}
+	}
+
+	public Map<String, Integer> getMapStates() {
+		return this.lastEventState;
+	}
+
+	public Map<String, Integer> getInterestingStates() {
+		return this.interestingState;
 	}
 }

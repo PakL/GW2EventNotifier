@@ -81,6 +81,10 @@ public class StartupFrame extends JFrame {
 		}
 	}
 
+	public EventManager getEventManger() {
+		return eventManger;
+	}
+
 	public void resetToLoading() {
 		System.out.println("[GUI] Setting GUI to loading only");
 		if( eventManger != null ) {

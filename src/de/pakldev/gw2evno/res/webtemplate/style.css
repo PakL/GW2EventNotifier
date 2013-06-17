@@ -1,0 +1,203 @@
+html, body {
+	background-color: #ffffff;
+	color: #000000;
+	font-family: 'Roboto', Sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+	background-color: #e4e4e4;
+	border-bottom: 1px solid #898989;
+	width: 100%;
+	height: 48px;
+	color: #2d2d2d;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+
+	box-shadow: 0px 0px 2px rgba(0,0,0, 0.1);
+	-webkit-box-shadow: 0px 0px 2px rgba(0,0,0, 0.1);
+	-moz-box-shadow: 0px 0px 2px rgba(0,0,0, 0.1);
+}
+
+header > h1 {
+	background-image: url(/icons/kill_icon.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	padding-left: 40px;
+
+	font-size: 22px;
+	margin: 0px;
+	margin-left: 16px;
+	line-height: 48px;
+	font-weight: 400;
+	float: left;
+}
+
+header > .settings {
+	float: right;
+	background-image: url(/img/android/2_action_settings.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	width: 48px;
+	height: 48px;
+	margin-right: 16px;
+}
+
+div#content {
+	padding-top: 48px;
+}
+
+small {
+	font-size: 14px;
+}
+
+ul {
+	list-style: none;
+	margin: 0px;
+	padding: 16px;
+}
+
+ul > li {
+	margin-bottom: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	background-color: #f4f4f4;
+	box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
+	-webkit-box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
+	-moz-box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
+	min-height: 48px;
+	line-height: 48px;
+}
+
+ul > li.attack {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/attack_icon.png);
+}
+
+ul > li.capture {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/capture_icon.png);
+}
+
+ul > li.collect {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/collect_icon.png);
+}
+
+ul > li.fist {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/fist_icon.png);
+}
+
+ul > li.kill {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/kill_icon.png);
+}
+
+ul > li.object {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/object_icon.png);
+}
+
+ul > li.protect {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/protect_icon.png);
+}
+
+ul > li.skill {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/skill_icon.png);
+}
+
+ul > li.star {
+	padding-left: 48px;
+	background-repeat: no-repeat;
+	background-position: 8px 8px;
+	background-image: url(/icons/star_icon.png);
+}
+
+ul > li > div {
+	line-height: normal;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+div.loading {
+	vertical-align: middle;
+	height: 32px;
+	width: 32px;
+	display: inline-block;
+	background-image: url(/icons/object_icon.png);
+
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-name: loading;
+
+	-webkit-animation-duration: 3s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-name: loading;
+}
+
+@keyframes loading {
+	0% {
+		transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+	}
+	25% {
+		transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+	}
+	50% {
+		transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+	}
+	75% {
+		transform: rotate(270deg);
+		-moz-transform: rotate(270deg);
+	}
+	100% {
+		transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes loading {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	25% {
+		-webkit-transform: rotate(90deg);
+	}
+	50% {
+		-webkit-transform: rotate(180deg);
+	}
+	75% {
+		-webkit-transform: rotate(270deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
