@@ -8,11 +8,15 @@ import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.gw2api.WorldNames;
 import de.pakldev.gw2evno.web.WebInterface;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 import javax.swing.*;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
@@ -62,17 +66,10 @@ public class GW2EvNoMain {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("[System] Forcing default file encoding to utf-8");
-		System.setProperty("file.encoding","UTF-8");
+		System.setProperty("file.encoding", "UTF-8");
 		Field charset = Charset.class.getDeclaredField("defaultCharset");
 		charset.setAccessible(true);
 		charset.set(null,null);
-
-		if( !new File("guildwars2.com.keystore").exists() ){
-			System.out.println("[System] Creating keystore from ssl certificate");
-			GW2EvNoMain.importSSLCert();
-		}
-		System.setProperty("javax.net.ssl.trustStore", "guildwars2.com.keystore");
-
 
 		try {
 			System.out.println("[System] Setting system look and feel");
@@ -89,28 +86,20 @@ public class GW2EvNoMain {
 		new GW2EvNoMain();
 	}
 
-	public static void importSSLCert() throws Exception {
-		KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-		ks.load(null, null);
-
-		BufferedInputStream bis = new BufferedInputStream(GW2EvNoMain.class.getResourceAsStream("guildwars2.com.cer"));
-		CertificateFactory cf = CertificateFactory.getInstance("X.509");
-		Certificate cert = null;
-
-		if (bis.available() > 0) {
-			cert = cf.generateCertificate( bis );
-			ks.setCertificateEntry( "SGCert", cert );
-		}
-
-		ks.setCertificateEntry("SGCert", cert);
-		ks.store(new FileOutputStream("guildwars2.com.keystore"), "secret".toCharArray());
-	}
-
 	public static String loadURL(String urlStr) throws MalformedURLException {
 		URL url = new URL(urlStr);
 		String result = "";
 		try {
-			InputStream is = url.openStream();
+			URLConnection conn = url.openConnection();
+			if( conn instanceof HttpsURLConnection ) {
+				((HttpsURLConnection)conn).setHostnameVerifier(new HostnameVerifier() {
+					@Override
+					public boolean verify(String s, SSLSession sslSession) {
+						return true;
+					}
+				});
+			}
+			InputStream is = conn.getInputStream();
 			System.out.println("[HTTP] Loading " + urlStr + "...");
 			int r = -1;
 			while((r = is.read()) >= 0) {
