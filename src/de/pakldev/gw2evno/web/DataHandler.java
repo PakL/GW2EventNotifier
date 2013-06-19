@@ -31,15 +31,13 @@ public class DataHandler implements HttpHandler {
 		System.out.println("[Web] Requesting data: " + path);
 
 		if( path.equalsIgnoreCase("/data/maps/") || path.equalsIgnoreCase("/data/maps") ) {
-			JSONArray arr = new JSONArray();
+			JSONObject obj = new JSONObject();
 			if( main.maps != null ) {
 				for(String id : main.maps.getMaps().keySet()) {
-					JSONObject obj = new JSONObject();
 					obj.put(id, main.maps.getMap(id));
-					arr.add(obj);
 				}
 			}
-			String result = arr.toString();
+			String result = obj.toString();
 
 			ArrayList<String> contentType = new ArrayList<String>();
 			contentType.add("text/plain; charset=utf-8");

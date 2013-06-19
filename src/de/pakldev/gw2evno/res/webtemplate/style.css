@@ -9,12 +9,13 @@ html, body {
 }
 
 header {
-	background-color: #e4e4e4;
-	border-bottom: 1px solid #898989;
+	background-color: #dddddd;
+	border-bottom: 1px solid #aeaeae;
 	width: 100%;
 	height: 48px;
-	color: #2d2d2d;
+	color: #000000;
 	position: fixed;
+	z-index: 2;
 	top: 0px;
 	left: 0px;
 
@@ -40,13 +41,54 @@ header > h1 {
 
 header > .settings {
 	float: right;
-	background-image: url(/img/android/2_action_settings.png);
+	background-image: url(/img/2_action_settings.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	width: 48px;
 	height: 48px;
 	margin-right: 16px;
+}
+
+div#settings {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: -100%;
+	padding-top: 48px;
+	width: 80%;
+	height: 100%;
+	background-color: #303030;
+	color: #f3f3f3;
+}
+
+div#settings > select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	border: 0px;
+	background: transparent;
+	width: 100%;
+	min-height: 48px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	font-size: 18px;
+	color: #f3f3f3;
+	padding-left: 16px;
+
+	background-repeat: no-repeat;
+	background-size: 17px 48px;
+	background-position: 98% center;
+	background-image: url(/img/select_corner.png);
+	
+	border-bottom: 1px solid #1e1e1e;
+}
+div#settings > select > option {
+	color: #000000;
+	background-color: #dddddd;
+	line-height: normal;
 }
 
 div#content {
@@ -60,82 +102,99 @@ small {
 ul {
 	list-style: none;
 	margin: 0px;
-	padding: 16px;
+	padding: 0px;
 }
 
 ul > li {
-	margin-bottom: 8px;
 	padding-left: 16px;
 	padding-right: 16px;
 	background-color: #f4f4f4;
-	box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
-	-webkit-box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
-	-moz-box-shadow: 0px 0px 3px rgba(0,0,0, 0.3);
 	min-height: 48px;
 	line-height: 48px;
+	border-bottom: 1px solid #d8d8d8;
+	color: #555555;
+}
+
+ul > li small {
+	color: #777777;
 }
 
 ul > li.attack {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/attack_icon.png);
 }
 
 ul > li.capture {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/capture_icon.png);
 }
 
 ul > li.collect {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/collect_icon.png);
 }
 
 ul > li.fist {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/fist_icon.png);
 }
 
 ul > li.kill {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/kill_icon.png);
 }
 
 ul > li.object {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/object_icon.png);
 }
 
 ul > li.protect {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/protect_icon.png);
 }
 
 ul > li.skill {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/skill_icon.png);
 }
 
 ul > li.star {
 	padding-left: 48px;
 	background-repeat: no-repeat;
-	background-position: 8px 8px;
+	background-position: 8px center;
 	background-image: url(/icons/star_icon.png);
+}
+
+ul > li.state3 {
+	background-color: #e2f0b6;
+	border-color: #c5e26d;
+}
+
+ul > li.state5 {
+	background-color: #ffecc0;
+	border-color: #ffd980;
+}
+
+ul > li.state4, ul > li.state6 {
+	background-color: #c5eaf8;
+	border-color: #8ad5f0;
 }
 
 ul > li > div {

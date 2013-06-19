@@ -1,0 +1,12 @@
+#settings {
+	display: block !important;
+	left: 0 !important;
+	width: 30% !important;
+}
+#content {
+	margin-left: 30%;
+}
+
+header > .settings {
+	display: none;
+}
