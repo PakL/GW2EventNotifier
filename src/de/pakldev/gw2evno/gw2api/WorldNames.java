@@ -1,10 +1,12 @@
 package de.pakldev.gw2evno.gw2api;
 
 
+import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import sun.security.krb5.Config;
 
 import javax.swing.*;
 import java.util.Map;
@@ -47,6 +49,16 @@ public class WorldNames {
 				return worldNames.get(key);
 		}
 		return "";
+	}
+
+	public int getIndexByWorldId(String id) {
+		int i = 0;
+		for(String key : worldNames.keySet()) {
+			if( key.equalsIgnoreCase(id) ) return i;
+			i++;
+		}
+
+		return Configuration.worldIndex;
 	}
 
 	public String getWorldIdAt(int index) {

@@ -85,7 +85,7 @@ div#settings > select {
 	
 	border-bottom: 1px solid #1e1e1e;
 }
-div#settings > select > option {
+div#settings > select option, div#settings > select optgroup {
 	color: #000000;
 	background-color: #dddddd;
 	line-height: normal;

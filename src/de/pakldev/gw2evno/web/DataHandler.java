@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataHandler implements HttpHandler {
@@ -28,28 +29,38 @@ public class DataHandler implements HttpHandler {
 	public void handle(HttpExchange ex) throws IOException {
 		String path = ex.getRequestURI().getPath();
 
-		System.out.println("[Web] Requesting data: " + path);
-
-		if( path.equalsIgnoreCase("/data/maps/") || path.equalsIgnoreCase("/data/maps") ) {
-			JSONObject obj = new JSONObject();
-			if( main.maps != null ) {
-				for(String id : main.maps.getMaps().keySet()) {
-					obj.put(id, main.maps.getMap(id));
+		Map<String, String> q = new HashMap<String, String>();
+		String query = ex.getRequestURI().getQuery();
+		if( query != null && !query.isEmpty() ) {
+			String[] s = query.split("&");
+			for(String i : s) {
+				String[] m = i.split("=", 2);
+				if( m.length == 2 ) {
+					q.put(m[0], m[1]);
 				}
 			}
-			String result = obj.toString();
+		}
 
-			ArrayList<String> contentType = new ArrayList<String>();
-			contentType.add("text/plain; charset=utf-8");
-			ex.getResponseHeaders().put("Content-Type", contentType);
-			ex.sendResponseHeaders(200, result.getBytes().length);
+		//System.out.println("[Web] Requesting data: " + path);
 
-			OutputStream os = ex.getResponseBody();
-			os.write(result.getBytes());
-			os.flush();
-			os.close();
+		Object res = new JSONArray();
+
+		if( path.equalsIgnoreCase("/data/worlds/") || path.equalsIgnoreCase("/data/worlds") ) {
+			res = new JSONObject();
+			if( main.worlds != null ) {
+				for(String id : main.worlds.getWorlds().keySet()) {
+					((JSONObject)res).put(id, main.worlds.getWorld(id));
+				}
+			}
+		} else if( path.equalsIgnoreCase("/data/maps/") || path.equalsIgnoreCase("/data/maps") ) {
+			res = new JSONObject();
+			if( main.maps != null ) {
+				for(String id : main.maps.getMaps().keySet()) {
+					((JSONObject)res).put(id, main.maps.getMap(id));
+				}
+			}
 		} else if( path.equalsIgnoreCase("/data/events/") || path.equalsIgnoreCase("/data/events") ) {
-			JSONObject obj = new JSONObject();
+			res = new JSONObject();
 			if( main.events != null ) {
 				for(String id : main.events.getEvents().keySet()) {
 					JSONObject details = new JSONObject();
@@ -77,23 +88,12 @@ public class DataHandler implements HttpHandler {
 					details.put("icon", icon);
 
 
-					obj.put(id, details);
+					((JSONObject)res).put(id, details);
 				}
 			}
-			String result = obj.toString();
-
-			ArrayList<String> contentType = new ArrayList<String>();
-			contentType.add("text/plain; charset=utf-8");
-			ex.getResponseHeaders().put("Content-Type", contentType);
-			ex.sendResponseHeaders(200, result.getBytes().length);
-
-			OutputStream os = ex.getResponseBody();
-			os.write(result.getBytes());
-			os.flush();
-			os.close();
 		} else if( path.equalsIgnoreCase("/data/mapevents") || path.equalsIgnoreCase("/data/mapevents/") ) {
 			EventManager evma = main.sf.getEventManger();
-			JSONArray arr = new JSONArray();
+			res = new JSONArray();
 			if( evma != null ) {
 				Map<String, Integer> states = evma.getMapStates();
 				if( states != null ) {
@@ -103,27 +103,43 @@ public class DataHandler implements HttpHandler {
 						obj.put("id", id);
 						obj.put("state", state);
 						obj.put("langstate", Language.state(state));
-						arr.add(obj);
+						((JSONArray)res).add(obj);
 					}
 				}
 			}
-
-			String result = arr.toString();
-
-			ArrayList<String> contentType = new ArrayList<String>();
-			contentType.add("text/plain; charset=utf-8");
-			ex.getResponseHeaders().put("Content-Type", contentType);
-			ex.sendResponseHeaders(200, result.getBytes().length);
-
-			OutputStream os = ex.getResponseBody();
-			os.write(result.getBytes());
-			os.flush();
-			os.close();
+		} else if( path.equalsIgnoreCase("/data/settings") || path.equalsIgnoreCase("/data/settings/") ) {
+			res = new JSONObject();
+			((JSONObject)res).put("world", main.worlds.getWorldIdAt(main.sf.getWorldIndex()));
+			((JSONObject)res).put("map", main.maps.getMapIdAt(main.sf.getMapIndex()));
+		} else if( path.equalsIgnoreCase("/data/setworld") || path.equalsIgnoreCase("/data/setworld/") ) {
+			if( q.containsKey("world") ) {
+				main.sf.setWorldIndex(main.worlds.getIndexByWorldId(q.get("world")));
+				((JSONArray)res).add("done");
+			}
+		} else if( path.equalsIgnoreCase("/data/setmap") || path.equalsIgnoreCase("/data/setmap/") ) {
+			if( q.containsKey("map") ) {
+				main.sf.setMapIndex(main.maps.getIndexByMapId(q.get("map")));
+				((JSONArray)res).add("done");
+			}
 		} else {
 			System.out.println("[Web] Unknown data request: " + path);
 			ex.sendResponseHeaders(404, -1);
+			return;
 		}
-		//ex.close();
+
+
+		String result = res.toString();
+
+		ArrayList<String> contentType = new ArrayList<String>();
+		contentType.add("text/plain; charset=utf-8");
+		ex.getResponseHeaders().put("Content-Type", contentType);
+		ex.sendResponseHeaders(200, result.getBytes().length);
+
+		OutputStream os = ex.getResponseBody();
+		os.write(result.getBytes());
+		os.flush();
+		os.close();
+		ex.close();
 	}
 
 }

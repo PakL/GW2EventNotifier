@@ -42,6 +42,13 @@ public class FileHandler implements HttpHandler {
 				contentType.add("image/jpeg");
 			}
 
+			if( path.endsWith(".css") ) {
+				contentType.add("text/css");
+			}
+			if( path.endsWith(".js") ) {
+				contentType.add("text/javascript");
+			}
+
 			if( contentType.size() > 0 ) {
 				ex.getResponseHeaders().put("Content-Type", contentType);
 			}

@@ -73,10 +73,20 @@ public class StartupFrame extends JFrame {
 	}
 
 	public void setMapIndex(int i) {
+		System.out.println("[GUI] New map index: "+i);
 		if( mapBox != null ) {
 			mapBox.setSelectedIndex(i);
 			if( eventManger != null ) {
 				eventManger.actionPerformed(new ActionEvent(mapBox,-1,"mapChanged"));
+			}
+		}
+	}
+	public void setWorldIndex(int i) {
+		System.out.println("[GUI] New world index: "+i);
+		if( worldBox != null ) {
+			worldBox.setSelectedIndex(i);
+			if( eventManger != null ) {
+				eventManger.actionPerformed(new ActionEvent(worldBox,-1,"worldChanged"));
 			}
 		}
 	}
