@@ -9,7 +9,6 @@ import org.json.simple.JSONValue;
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 

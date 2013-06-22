@@ -10,7 +10,6 @@ import de.pakldev.gw2evno.gw2api.Events;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;

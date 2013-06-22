@@ -6,7 +6,6 @@ import de.pakldev.gw2evno.GW2EvNoMain;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import sun.security.krb5.Config;
 
 import javax.swing.*;
 import java.util.Map;

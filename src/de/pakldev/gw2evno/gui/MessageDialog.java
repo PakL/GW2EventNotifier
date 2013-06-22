@@ -2,12 +2,14 @@ package de.pakldev.gw2evno.gui;
 
 
 import com.sun.awt.AWTUtilities;
+import de.pakldev.gw2evno.GW2EvNoMain;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class MessageDialog extends JDialog implements Runnable {
 
@@ -16,8 +18,11 @@ public class MessageDialog extends JDialog implements Runnable {
 	private boolean doNotAutoHide = false;
 	private Thread autoHide = null;
 
-	public MessageDialog(final DialogManager dm, String message, Image icon, boolean interesting) {
+	private String eventid = "";
+
+	public MessageDialog(final DialogManager dm, final String eventid, String message, Image icon, boolean interesting) {
 		this.dm = dm;
+		this.eventid = eventid;
 
 		this.setUndecorated(true);
 		this.setSize(300, 100);
@@ -33,6 +38,13 @@ public class MessageDialog extends JDialog implements Runnable {
 				if( e.getSource() instanceof MessageDialog ) {
 					MessageDialog fr = (MessageDialog) e.getSource();
 					dm.closeDialog(fr);
+
+					if( e.getButton() == MouseEvent.BUTTON3 ) {
+						try {
+							String localhostname = InetAddress.getLocalHost().getHostName();
+							GW2EvNoMain.openUrl("http://"+localhostname+":8086/map.html?eventid="+eventid);
+						} catch (UnknownHostException e1) {}
+					}
 				}
 			}
 

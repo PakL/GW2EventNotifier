@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>GW2 Event Notifier</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,700' rel='stylesheet' type='text/css' />
+		
+		<style type="text/css">
+			body {
+				font-family: 'Roboto', Sans-serif;
+				font-size: 16px;
+				color: #000000;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			#map {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			}
+		</style>
+
+
+		<script type="text/javascript" src="/underscore.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+		<!--[if lte IE 8]>
+			<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+		<![endif]-->
+
+		<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+
+		<script type="text/javascript">
+			var map;
+
+			function unproject(coord) {
+				return map.unproject(coord, map.getMaxZoom());
+			}
+			function m2inch(num) {
+				return (num*39.3700787);
+			}
+			function inch2m(num) {
+				return (num/39.3700787);
+			}
+
+			$(function () {
+				"use strict";
+
+				var eventId = "{eventid}";
+
+				var southWest, northEast;
+
+				$.getJSON("https://api.guildwars2.com/v1/event_details.json?event_id="+eventId, function(events) {
+
+					var e = events.events[eventId];
+
+					var mapId = e.map_id;
+
+					$.getJSON("https://api.guildwars2.com/v1/maps.json?map_id="+mapId, function (data) {
+						var m = data.maps[mapId];
+
+						map = L.map("map", {
+							zoom: 0,
+							minZoom: 0,
+							maxZoom: 7,
+							crs: L.CRS.Simple
+						});
+
+						southWest = unproject([0, 32768]);
+						northEast = unproject([32768, 0]);
+
+						map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+
+						L.tileLayer("https://tiles.guildwars2.com/1/1/{z}/{x}/{y}.jpg", {
+							minZoom: 0,
+							maxZoom: 7,
+							continuousWorld: true,
+							reuseTiles: true,
+							attribution: 'Images by ArenaNet'
+						}).addTo(map);
+
+						var eX = e.location.center[0];
+						var eY = e.location.center[1];
+
+						var pX = (eX - m.map_rect[0][0]) / (m.map_rect[1][0] - m.map_rect[0][0]);
+						var pY = (eY - m.map_rect[0][1]) / (m.map_rect[1][1] - m.map_rect[0][1]);
+
+						var cX = m.continent_rect[0][0] + (m.continent_rect[1][0] - m.continent_rect[0][0]) * pX;
+						var cY = m.continent_rect[0][1] + (m.continent_rect[1][1] - m.continent_rect[0][1]) * pY;
+
+						var p = unproject([cX,cY]);
+						L.marker( p, { title: e.name } ).addTo(map);
+						map.setView(p, 5)
+					});
+
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="map"></div>
+	</body>
+</html>

@@ -132,6 +132,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 			int newState = Events.getEvent(main.worlds.getWorldIdAt(world), eventId);
 			int oldState = -1;
 			if( interestingState == null ) {
+				oldState = newState;
 				interestingState = new HashMap<String, Integer>();
 				interestingState.put(eventId, oldState);
 			}
@@ -144,13 +145,13 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 				if( EventNames.getEventType(eventId) == Events.TYPE_SKILL ) continue;
 
 				if( newState == Events.STATE_WARMUP ) {
-					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.warmup() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.warmup() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_PREPARATION ) {
-					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.preparation() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.preparation() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_ACTIVE ) {
-					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.active() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.active() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_INACTIVE ) {
-					dm.newDialog("<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.inactive() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.inactive() + "</font></center></html>", EventNames.getIcon(eventId), true);
 				}
 				shown.add(eventId);
 
@@ -160,8 +161,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		}
 
 
+		Map<String, Integer> newStates = Events.getEvents(main.worlds.getWorldIdAt(world), main.maps.getMapIdAt(map));
 		if( !interestingOnly ) {
-			Map<String, Integer> newStates = Events.getEvents(main.worlds.getWorldIdAt(world), main.maps.getMapIdAt(map));
 			if( lastEventState == null ) {
 				lastEventState = newStates;
 			}
@@ -175,21 +176,20 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 
 						if( !shown.contains(eventId) ) {
 							if( newState == Events.STATE_WARMUP ) {
-								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
+								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_PREPARATION ) {
-								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
+								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_ACTIVE ) {
-								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
+								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_INACTIVE ) {
-								dm.newDialog("<html><center><b>" + eventName + "</b><br />" + Language.inactive() + "</center></html>", EventNames.getIcon(eventId), false);
+								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.inactive() + "</center></html>", EventNames.getIcon(eventId), false);
 							}
 						}
 					}
 				}
 			}
-
-			lastEventState = newStates;
 		}
+		lastEventState = newStates;
 	}
 
 	@Override

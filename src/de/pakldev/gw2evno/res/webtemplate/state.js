@@ -32,7 +32,7 @@ $(document).ready(function(){
 				var list = $('<ul />');
 				_.each(resp, function(item){
 					var name = eventNames[item.id];
-					var item = $('<li />').addClass(name.icon+' state'+item.state).append('<div>' + name.name + '<br /><small>'+item.langstate+'</small></div>');
+					var item = $('<li />').addClass(name.icon+' state'+item.state).append('<div><a class="location"><input type="hidden" value="'+item.id+'" /></a>' + name.name + '<br /><small>'+item.langstate+'</small></div>');
 					list.append(item);
 				});
 
@@ -81,6 +81,21 @@ $(document).ready(function(){
 	});
 	$('#mapselect').change(function(){
 		$.get('/data/setmap',{"map":$('#mapselect option:selected').prop("value")}, function(){});
+	});
+
+	$(document).on('click','.location', function() {
+		var id = $(this).children("input").val();
+
+		var map = $('<div />').addClass("map");
+		map.append('<div class="closemap"></div>').append('<iframe src="map.html?eventid='+id+'"></iframe>');
+		$("body").append(map);
+		map.animate({ left: 0 });
+		map.children(".closemap").animate({ left: 0 });
+	});
+
+	$(document).on('click','.closemap', function() {
+		var map = $(this).parent();
+		map.animate({left: "100%"}, function(){ map.remove(); });
 	});
 
 });

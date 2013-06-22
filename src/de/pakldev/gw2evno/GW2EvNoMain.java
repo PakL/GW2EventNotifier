@@ -12,15 +12,13 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.swing.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
 
 public class GW2EvNoMain {
 
@@ -118,5 +116,22 @@ public class GW2EvNoMain {
 
 		return result;
 	}
+
+
+
+	public static void openUrl(String url) {
+		try {
+			if(java.awt.Desktop.isDesktopSupported() ) {
+				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+
+				if(desktop.isSupported(java.awt.Desktop.Action.BROWSE) ) {
+					java.net.URI uri = new java.net.URI(url);
+					desktop.browse(uri);
+				}
+			}
+		} catch(Exception e) {}
+	}
+
+
 
 }
