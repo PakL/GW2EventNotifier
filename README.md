@@ -11,9 +11,12 @@ Furthermore are you required to change the map manually.<br />
 In-game you can just press CTRL+Backspace. A dialog will pop up to easily search a map by it's name.
 
 The Guild Wars 2 API may allow to find your position in the future. Until then there is no other way.
+
+For more information about, well..., everything make sure to [visit the wiki](https://github.com/PakL/GW2EventNotifier/wiki)!
 ***
-Download: [b005 2013-06-20](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b005.jar)<br />
+Download: [b006 2013-06-22](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b006.jar)<br />
 Older versions:
+* [b005 2013-06-20](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b005.jar)
 * [b004 2013-06-11](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b004.jar)
 * [b003 2013-06-10](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b003.jar)
 * [b002 2013-06-09](https://dl.dropboxusercontent.com/u/16631598/GW2EvNo/GW2EventNotifier-b002.jar)
