@@ -11,10 +11,6 @@ function inch2m(num) {
 }
 
 $(function () {
-	"use strict";
-
-	var eventId = "{eventid}";
-
 	var southWest, northEast;
 
 	$.getJSON("https://api.guildwars2.com/v1/event_details.json?event_id="+eventId, function(events) {
