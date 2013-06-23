@@ -41,7 +41,7 @@ header > h1 {
 
 header > .settings {
 	float: right;
-	background-image: url(/img/2_action_settings.png);
+	background-image: url(/res/img/2_action_settings.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
@@ -81,7 +81,7 @@ div#settings > select {
 	background-repeat: no-repeat;
 	background-size: 17px 48px;
 	background-position: 98% center;
-	background-image: url(/img/select_corner.png);
+	background-image: url(/res/img/select_corner.png);
 	
 	border-bottom: 1px solid #1e1e1e;
 }
@@ -207,7 +207,7 @@ ul > li > div > .location {
 	float: right;
 	height: 48px;
 	width: 48px;
-	background-image: url(/img/location.png);
+	background-image: url(/res/img/location.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 32px 32px;

@@ -4,9 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import de.pakldev.gw2evno.GW2EvNoMain;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,16 +78,22 @@ public class FileHandler implements HttpHandler {
 				ex.sendResponseHeaders(200, 0);
 				os = ex.getResponseBody();
 			}
+
 			String readFirst = "";
-			int r = -1;
-			while((r = loadIs.read()) >= 0) {
-				int a = loadIs.available();
-				byte[] b = new byte[a+1];
-				b[0] = (byte)r;
-				loadIs.read(b, 1, a);
-				if( (queryable && q.size() > 0) || !chuncked ) {
-					readFirst += new String(b);
-				} else {
+			if( (queryable && q.size() > 0) || !chuncked ) {
+				BufferedReader br = new BufferedReader(new InputStreamReader(loadIs));
+				String line = "";
+				while( (line = br.readLine()) != null ) {
+					readFirst += (readFirst.isEmpty()?"":"\n") + line;
+				}
+				br.close();
+			} else {
+				int r = -1;
+				while((r = loadIs.read()) >= 0) {
+					int a = loadIs.available();
+					byte[] b = new byte[a+1];
+					b[0] = (byte)r;
+					loadIs.read(b, 1, a);
 					os.write(b);
 				}
 			}
