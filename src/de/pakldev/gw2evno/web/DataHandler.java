@@ -106,10 +106,27 @@ public class DataHandler implements HttpHandler {
 					}
 				}
 			}
+		} else if( path.equalsIgnoreCase("/data/interestingevents") || path.equalsIgnoreCase("/data/interestingevents/") ) {
+			EventManager evma = main.sf.getEventManger();
+			res = new JSONArray();
+			if( evma != null ) {
+				Map<String, Integer> states = evma.getInterestingStates();
+				if( states != null ) {
+					for(String id : states.keySet()) {
+						int state = states.get(id);
+						JSONObject obj = new JSONObject();
+						obj.put("id", id);
+						obj.put("state", state);
+						obj.put("langstate", Language.state(state));
+						((JSONArray)res).add(obj);
+					}
+				}
+			}
 		} else if( path.equalsIgnoreCase("/data/settings") || path.equalsIgnoreCase("/data/settings/") ) {
 			res = new JSONObject();
 			((JSONObject)res).put("world", main.worlds.getWorldIdAt(main.sf.getWorldIndex()));
 			((JSONObject)res).put("map", main.maps.getMapIdAt(main.sf.getMapIndex()));
+			((JSONObject)res).put("interestingonly", main.sf.isInterestingOnly());
 		} else if( path.equalsIgnoreCase("/data/setworld") || path.equalsIgnoreCase("/data/setworld/") ) {
 			if( q.containsKey("world") ) {
 				main.sf.setWorldIndex(main.worlds.getIndexByWorldId(q.get("world")));
@@ -118,6 +135,15 @@ public class DataHandler implements HttpHandler {
 		} else if( path.equalsIgnoreCase("/data/setmap") || path.equalsIgnoreCase("/data/setmap/") ) {
 			if( q.containsKey("map") ) {
 				main.sf.setMapIndex(main.maps.getIndexByMapId(q.get("map")));
+				((JSONArray)res).add("done");
+			}
+		} else if( path.equalsIgnoreCase("/data/setinterestingonly") || path.equalsIgnoreCase("/data/setinterestingonly/") ) {
+			if( q.containsKey("interestingonly") ) {
+				boolean io = false;
+				if( q.get("interestingonly").equalsIgnoreCase("true") || q.get("interestingonly").equalsIgnoreCase("1") ) {
+					io = true;
+				}
+				main.sf.setInterestinOnly(io);
 				((JSONArray)res).add("done");
 			}
 		} else {

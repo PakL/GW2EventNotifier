@@ -91,6 +91,25 @@ div#settings > select option, div#settings > select optgroup {
 	line-height: normal;
 }
 
+div#settings > div {
+	background: transparent;
+	width: 100%;
+	min-height: 48px;
+	border-bottom: 1px solid #1e1e1e;
+}
+
+div#settings > div > input[type=checkbox] {
+	margin-left: 16px;
+}
+
+
+div#settings > div > label {
+	line-height: 48px;
+	padding-left: 8px;
+}
+
+
+
 div#content {
 	padding-top: 48px;
 }
@@ -195,6 +214,21 @@ ul > li.state5 {
 ul > li.state4, ul > li.state6 {
 	background-color: #c5eaf8;
 	border-color: #8ad5f0;
+}
+
+ul > li.state3.interesting {
+	background-color: #b6db49;
+	border-color: #99cc00;
+}
+
+ul > li.state5.interesting {
+	background-color: #ffd060;
+	border-color: #ffbd21;
+}
+
+ul > li.state4.interesting, ul > li.state6.interesting {
+	background-color: #6dcaec;
+	border-color: #33b5e5;
 }
 
 ul > li > div {

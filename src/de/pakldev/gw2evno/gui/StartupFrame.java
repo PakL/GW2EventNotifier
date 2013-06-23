@@ -9,6 +9,7 @@ import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.MapNames;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,6 +71,17 @@ public class StartupFrame extends JFrame {
 
 	public int getMapIndex() {
 		return mapBox.getSelectedIndex();
+	}
+
+	public boolean isInterestingOnly() {
+		return interestinonly.isSelected();
+	}
+
+	public void setInterestinOnly(boolean io){
+		interestinonly.setSelected(io);
+		if(eventManger != null) {
+			eventManger.stateChanged(new ChangeEvent(interestinonly));
+		}
 	}
 
 	public void setMapIndex(int i) {
