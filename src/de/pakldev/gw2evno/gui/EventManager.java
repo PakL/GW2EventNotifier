@@ -86,6 +86,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	public void stop() {
 		running = false;
 		thisThread.interrupt();
+		dm.clear();
 	}
 
 	@Override

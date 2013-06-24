@@ -39,6 +39,14 @@ public class DialogManager {
 		System.out.println("[Dialog] Dialog removed");
 	}
 
+	public void clear() {
+		for(int i : dialogs.keySet()) {
+			dialogs.get(i).setVisible(false);
+			dialogs.get(i).dispose();
+		}
+		dialogs.clear();
+	}
+
 	class ClosingAnimation implements Runnable {
 
 		private MessageDialog dialog;
