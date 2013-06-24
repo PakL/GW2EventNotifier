@@ -1,8 +1,10 @@
 package de.pakldev.gw2evno;
 
-import java.io.*;
+import java.util.prefs.Preferences;
 
 public class Configuration {
+
+	private static Preferences preference;
 
 	public static int worldIndex = 0;
 	public static int mapIndex = 0;
@@ -11,57 +13,29 @@ public class Configuration {
 	public static boolean interestingOnly = false;
 
 	public static void loadConfig() {
-		File configFile = new File("gw2evno.cfg");
-		String config = "";
-		if( configFile.exists() ) {
-			try {
-				InputStream is = new FileInputStream(configFile);
-				int r = -1;
-				while((r = is.read()) >= 0) {
-					int a = is.available();
-					byte[] b = new byte[a+1];
-					b[0] = (byte)r;
-					is.read(b, 1, a);
-					config += new String(b);
-				}
-				is.close();
-				System.out.println("[Config] Configuration loaded with no error.");
-			} catch (Exception e) {
-				System.err.println("[Config] Error loading configuration: "+e.getMessage());
-			}
-		} else {
-			System.out.println("[Config] Default configuration loaded.");
-		}
-		String[] c = config.split("\n");
-		if( c.length == 5 ) {
-			try {
-				Configuration.worldIndex = Integer.parseInt(c[0]);
-				Configuration.mapIndex = Integer.parseInt(c[1]);
-				Configuration.timeout = Integer.parseInt(c[2]);
-				if( Configuration.timeout < 10 ) Configuration.timeout = 10;
-				Configuration.language = c[3];
-				if( c[4].equalsIgnoreCase("true") ) Configuration.interestingOnly = true;
-			} catch(Exception e) {}
+		try {
+			Configuration.preference = Preferences.userRoot().node("/de/pakldev/gw2evno/Configuration");
+			Configuration.worldIndex = Configuration.preference.getInt("worldIndex", 0);
+			Configuration.mapIndex = Configuration.preference.getInt("mapIndex", 0);
+			Configuration.timeout = Configuration.preference.getInt("timeout", 15);
+			Configuration.language = Configuration.preference.get("language", "en");
+			Configuration.interestingOnly = Configuration.preference.getBoolean("interestingOnly", false);
+			System.out.println("[Config] Configuration loaded with no error.");
+		} catch(Exception ex) {
+			System.err.println("[Config] Error loading configuration: "+ex.getMessage());
 		}
 	}
 
 	public static void saveConfig() {
-		File configFile = new File("gw2evno.cfg");
-		String	config  = Configuration.worldIndex + "\n";
-				config += Configuration.mapIndex + "\n";
-				config += Configuration.timeout + "\n";
-				config += Configuration.language + "\n";
-				config += (Configuration.interestingOnly ? "true" : "false");
-
 		try {
-			OutputStream os = new FileOutputStream(configFile);
-			os.write(config.getBytes());
-			os.flush();
-			os.close();
-
+			Configuration.preference.putInt("worldIndex", Configuration.worldIndex);
+			Configuration.preference.putInt("mapIndex", Configuration.mapIndex);
+			Configuration.preference.putInt("timeout", Configuration.timeout);
+			Configuration.preference.put("language", Configuration.language);
+			Configuration.preference.putBoolean("interestingOnly", Configuration.interestingOnly);
 			System.out.println("[Config] Configuration saved with no error.");
-		} catch(Exception e) {
-			System.err.println("[Config] Error saving configuration: "+e.getMessage());
+		} catch(Exception ex) {
+			System.err.println("[Config] Error saving configuration: "+ex.getMessage());
 		}
 	}
 
