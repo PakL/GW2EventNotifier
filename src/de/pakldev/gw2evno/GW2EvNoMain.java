@@ -27,6 +27,7 @@ public class GW2EvNoMain {
 	public WorldNames worlds;
 	public MapNames maps;
 	public EventNames events;
+	public WebInterface web;
 
 	public GW2EvNoMain() {
 		System.out.println("[System] Start up GUI");
@@ -36,28 +37,34 @@ public class GW2EvNoMain {
 		EventNames.loadEventIcons();
 
 		System.out.println("[System] Starting web interface");
-		new WebInterface(this);
+		web = new WebInterface(this);
+		web.start();
+
+		sf.setWebinterfaceEnabled(true);
 
 		this.loadLanguage(Configuration.language);
 	}
 
 	public void loadLanguage(final String language) {
+		Configuration.language = language;
+		Configuration.saveConfig();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				System.out.println("[System] Loading language files for '" + language + "'");
-				sf.resetToLoading();
+				sf.loading();
 
+				sf.setStatusAndProgress("Loading worlds...", 0);
 				worlds = new WorldNames(language);
-				sf.setProgressValue(1);
+				sf.setStatusAndProgress("Loading map names...", 1);
 				System.out.println("[System] World names loaded");
 				maps = new MapNames(language);
-				sf.setProgressValue(2);
+				sf.setStatusAndProgress("Loading event names...", 1);
 				System.out.println("[System] Map names loaded");
 				events = new EventNames(language);
-				sf.setProgressValue(3);
+				sf.setStatusAndProgress("Done!", 3);
 				System.out.println("[System] Event names loaded");
-				sf.doneLoading();
+				sf.ready();
 			}
 		}).start();
 	}

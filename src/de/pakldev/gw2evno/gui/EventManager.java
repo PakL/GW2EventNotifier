@@ -33,7 +33,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	private Map<String, Integer> interestingState = null;
 
 	private Thread thisThread = null;
-	private boolean running = true;
+	private boolean running = false;
 	private long lastUpdate = System.currentTimeMillis();
 
 	public EventManager(GW2EvNoMain main, StartupFrame sf) {
@@ -79,14 +79,22 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	}
 
 	public void start() {
-		thisThread = new Thread(this);
-		thisThread.start();
+		if( !running ) {
+			running = true;
+			lastUpdate = System.currentTimeMillis();
+			thisThread = new Thread(this);
+			thisThread.start();
+			sf.setApplicationState(SFMenu.APPLICATION_STATE_RUNNING);
+		}
 	}
 
 	public void stop() {
-		running = false;
-		thisThread.interrupt();
-		dm.clear();
+		if( running ) {
+			running = false;
+			thisThread.interrupt();
+			dm.clear();
+			sf.setApplicationState(SFMenu.APPLICATION_STATE_PAUSED);
+		}
 	}
 
 	@Override
@@ -94,17 +102,18 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		if( oldtimeout < 10 ) { oldtimeout = 10; newtimeout = 10; }
 		int timeout = (oldtimeout * 1000);
 
-		sf.setProgressMax(timeout);
-		sf.setProgressValue(0);
+		int oldSec = 0;
+
+		refreshStatus(0, timeout);
 
 		System.out.println("[System] Checking for new states");
 		this.checkForNewStates();
 
 		while(running) {
 			int timeFinished = (int) (System.currentTimeMillis()-lastUpdate);
-			sf.setProgressValue(timeFinished);
-			if( timeFinished >= timeout ) {
-				sf.setProgressIndeterminate(true);
+			refreshStatus(timeFinished, timeout);
+			if( timeFinished >= timeout && running ) {
+				refreshStatus(-1, 0);
 				System.out.println("[System] Checking for new states");
 				this.checkForNewStates();
 				lastUpdate = System.currentTimeMillis();
@@ -114,7 +123,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 					Configuration.saveConfig();
 					timeout = (newtimeout * 1000);
 					oldtimeout = newtimeout;
-					sf.setProgressMax(timeout);
+					timeFinished = 0;
+					refreshStatus(timeFinished, timeout);
 				}
 			}
 
@@ -123,6 +133,23 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 			} catch (InterruptedException e) {
 				running = false;
 				break;
+			}
+		}
+		sf.setStatusAndProgress("Refreshing paused or stopped", 1, 1);
+	}
+
+	private int oldSec = 0;
+	private void refreshStatus(int timeFinished, int timeout) {
+		if( timeFinished < 0 || timeout == 0 ) {
+			sf.setStatusAndProgress("Refreshing status", -1);
+		} else {
+			int newSec = (int)Math.ceil(((float) timeout - (float) timeFinished) /1000f  );
+			if( newSec != oldSec ) {
+				oldSec = newSec;
+				sf.setStatusAndProgress(oldSec + " seconds until refresh", timeFinished, timeout);
+			} else {
+				sf.setMaximumProgress(timeout);
+				sf.setProgress(timeFinished);
 			}
 		}
 	}
@@ -191,6 +218,9 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 			}
 		}
 		lastEventState = newStates;
+
+		sf.setMapEvents(lastEventState.size());
+		sf.setInterestingEvents(interestingState.size());
 	}
 
 	@Override
