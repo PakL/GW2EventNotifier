@@ -29,8 +29,11 @@ public class StartupFrame extends JFrame {
 	private SFReqsettings reqSettings = new SFReqsettings(this);
 	private SFEnvironmentStatus envStatus = new SFEnvironmentStatus(this);
 
-	public StartupFrame(GW2EvNoMain main) {
+	private boolean pauseAfterReady = false;
+
+	public StartupFrame(GW2EvNoMain main, boolean startuppaused) {
 		this.main = main;
+		pauseAfterReady = startuppaused;
 
 		this.setTitle("GW2 Event Notifier");
 		this.setSize(400, 340);
@@ -180,8 +183,10 @@ public class StartupFrame extends JFrame {
 
 		eventManger = new EventManager(main, this);
 		reqSettings.registerEventManager(eventManger);
-		eventManger.start();
-		System.out.println("[System] EventManager started");
+		if( !pauseAfterReady ) {
+			eventManger.start();
+			System.out.println("[System] EventManager started");
+		}
 
 		reqSettings.setDisabledAll(false);
 		menuBar.applicationEnabled(true);

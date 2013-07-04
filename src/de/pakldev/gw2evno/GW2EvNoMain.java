@@ -29,16 +29,17 @@ public class GW2EvNoMain {
 	public EventNames events;
 	public WebInterface web;
 
-	public GW2EvNoMain() {
+	public GW2EvNoMain(boolean startuppaused, boolean noweb) {
 		System.out.println("[System] Start up GUI");
-		sf = new StartupFrame(this);
+		sf = new StartupFrame(this, startuppaused);
 
 		System.out.println("[System] Loading event names to guess the related icon");
 		EventNames.loadEventIcons();
 
 		System.out.println("[System] Starting web interface");
 		web = new WebInterface(this);
-		web.start();
+		if( !noweb )
+			web.start();
 
 		sf.setWebinterfaceEnabled(true);
 
@@ -88,7 +89,14 @@ public class GW2EvNoMain {
 		System.out.println("[System] Loading images");
 		Events.loadImages();
 
-		new GW2EvNoMain();
+		boolean startuppaused = false;
+		boolean noweb = false;
+		for( String arg : args ) {
+			if( arg.equalsIgnoreCase("-startuppaused") ) startuppaused = true;
+			if( arg.equalsIgnoreCase("-noweb") ) noweb = true;
+		}
+
+		new GW2EvNoMain(startuppaused, noweb);
 	}
 
 	public static String loadURL(String urlStr) throws MalformedURLException {
