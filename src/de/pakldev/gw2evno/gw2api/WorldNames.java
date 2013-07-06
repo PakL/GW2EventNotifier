@@ -24,13 +24,15 @@ public class WorldNames {
 		try {
 			String worldNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/world_names.json?lang="+language);
 			JSONArray worldNames_ = (JSONArray) JSONValue.parse(worldNamesStr);
-			for(Object obj : worldNames_) {
-				JSONObject o = (JSONObject)obj;
-				if( o.containsKey("id") && o.containsKey("name") ) {
-					String oid = (String) o.get("id");
-					String oname = (String) o.get("name");
+			if( worldNames_ != null ) {
+				for(Object obj : worldNames_) {
+					JSONObject o = (JSONObject)obj;
+					if( o.containsKey("id") && o.containsKey("name") ) {
+						String oid = (String) o.get("id");
+						String oname = (String) o.get("name");
 
-					worldNames.put(oid, oname);
+						worldNames.put(oid, oname);
+					}
 				}
 			}
 		} catch (Exception e) {

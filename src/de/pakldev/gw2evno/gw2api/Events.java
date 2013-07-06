@@ -52,22 +52,24 @@ public class Events {
 			try {
 				String eventsStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&map_id="+mapId);
 				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsStr);
-				if( eventsObj.containsKey("events") ) {
-					JSONArray events = (JSONArray) eventsObj.get("events");
-					for(Object obj : events) {
-						JSONObject o = (JSONObject) obj;
-						if( o.containsKey("event_id") && o.containsKey("state") ) {
-							String eventId = (String) o.get("event_id");
-							String stateStr = (String)o.get("state");
-							int state = Events.STATE_FAIL;
-							if( stateStr.equalsIgnoreCase("Success") ) state = Events.STATE_SUCCESS;
-							else if( stateStr.equalsIgnoreCase("Fail") ) state = Events.STATE_FAIL;
-							else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
-							else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
-							else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
-							else if( stateStr.equalsIgnoreCase("Inactive") ) state = Events.STATE_INACTIVE;
+				if( eventsObj != null ) {
+					if( eventsObj.containsKey("events") ) {
+						JSONArray events = (JSONArray) eventsObj.get("events");
+						for(Object obj : events) {
+							JSONObject o = (JSONObject) obj;
+							if( o.containsKey("event_id") && o.containsKey("state") ) {
+								String eventId = (String) o.get("event_id");
+								String stateStr = (String)o.get("state");
+								int state = Events.STATE_FAIL;
+								if( stateStr.equalsIgnoreCase("Success") ) state = Events.STATE_SUCCESS;
+								else if( stateStr.equalsIgnoreCase("Fail") ) state = Events.STATE_FAIL;
+								else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
+								else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
+								else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
+								else if( stateStr.equalsIgnoreCase("Inactive") ) state = Events.STATE_INACTIVE;
 
-							result.put(eventId, state);
+								result.put(eventId, state);
+							}
 						}
 					}
 				}
@@ -82,22 +84,24 @@ public class Events {
 			try {
 				String eventsStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&event_id="+eventId);
 				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsStr);
-				if( eventsObj.containsKey("events") ) {
-					JSONArray events = (JSONArray) eventsObj.get("events");
-					for(Object obj : events) {
-						JSONObject o = (JSONObject) obj;
-						if( o.containsKey("event_id") && o.containsKey("state") ) {
-							if( ((String) o.get("event_id")).equalsIgnoreCase(eventId) ) {
-								String stateStr = (String)o.get("state");
-								int state = Events.STATE_FAIL;
-								if( stateStr.equalsIgnoreCase("Success") ) state = Events.STATE_SUCCESS;
-								else if( stateStr.equalsIgnoreCase("Fail") ) state = Events.STATE_FAIL;
-								else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
-								else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
-								else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
+				if( eventsObj != null  ) {
+					if( eventsObj.containsKey("events") ) {
+						JSONArray events = (JSONArray) eventsObj.get("events");
+						for(Object obj : events) {
+							JSONObject o = (JSONObject) obj;
+							if( o.containsKey("event_id") && o.containsKey("state") ) {
+								if( ((String) o.get("event_id")).equalsIgnoreCase(eventId) ) {
+									String stateStr = (String)o.get("state");
+									int state = Events.STATE_FAIL;
+									if( stateStr.equalsIgnoreCase("Success") ) state = Events.STATE_SUCCESS;
+									else if( stateStr.equalsIgnoreCase("Fail") ) state = Events.STATE_FAIL;
+									else if( stateStr.equalsIgnoreCase("Active") ) state = Events.STATE_ACTIVE;
+									else if( stateStr.equalsIgnoreCase("Warmup") ) state = Events.STATE_WARMUP;
+									else if( stateStr.equalsIgnoreCase("Preparation") ) state = Events.STATE_PREPARATION;
 
-								result = state;
-								break;
+									result = state;
+									break;
+								}
 							}
 						}
 					}

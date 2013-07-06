@@ -24,13 +24,15 @@ public class MapNames {
 		try {
 			String mapNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/map_names.json?lang="+language);
 			JSONArray mapNames_ = (JSONArray) JSONValue.parse(mapNamesStr);
-			for(Object obj : mapNames_) {
-				JSONObject o = (JSONObject)obj;
-				if( o.containsKey("id") && o.containsKey("name") ) {
-					String oid = (String) o.get("id");
-					String oname = (String) o.get("name");
+			if( mapNames_ != null ) {
+				for(Object obj : mapNames_) {
+					JSONObject o = (JSONObject)obj;
+					if( o.containsKey("id") && o.containsKey("name") ) {
+						String oid = (String) o.get("id");
+						String oname = (String) o.get("name");
 
-					mapNames.put(oid, oname);
+						mapNames.put(oid, oname);
+					}
 				}
 			}
 		} catch (Exception e) {

@@ -126,7 +126,7 @@ public class GW2EvNoMain {
 			System.out.println("[HTTP] Downloading file successfull: " + result.getBytes().length + " bytes");
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), e.getClass().getName(), JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
+			//System.exit(0);
 		}
 
 		return result;

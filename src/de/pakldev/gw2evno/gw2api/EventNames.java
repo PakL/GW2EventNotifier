@@ -28,13 +28,15 @@ public class EventNames {
 		try {
 			String eventNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/event_names.json?lang="+language);
 			JSONArray eventNames_ = (JSONArray)JSONValue.parse(eventNamesStr);
-			for(Object obj : eventNames_) {
-				JSONObject o = (JSONObject)obj;
-				if( o.containsKey("id") && o.containsKey("name") ) {
-					String oid = (String) o.get("id");
-					String oname = (String) o.get("name");
+			if( eventNames_ != null ) {
+				for(Object obj : eventNames_) {
+					JSONObject o = (JSONObject)obj;
+					if( o.containsKey("id") && o.containsKey("name") ) {
+						String oid = (String) o.get("id");
+						String oname = (String) o.get("name");
 
-					eventNames.put(oid, oname);
+						eventNames.put(oid, oname);
+					}
 				}
 			}
 		} catch (Exception e) {
