@@ -7,6 +7,7 @@ import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.MapNames;
+import de.pakldev.gw2evno.web.WebInterface;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -28,6 +29,7 @@ public class StartupFrame extends JFrame {
 	private SFStatusBar statusBar = new SFStatusBar(this);
 	private SFReqsettings reqSettings = new SFReqsettings(this);
 	private SFEnvironmentStatus envStatus = new SFEnvironmentStatus(this);
+	private SFAppsettings appSettings = new SFAppsettings(this);
 
 	private boolean pauseAfterReady = false;
 
@@ -66,7 +68,12 @@ public class StartupFrame extends JFrame {
 		scrollLayout.putConstraint(SpringLayout.EAST, envStatus, -5, SpringLayout.EAST, scrollPanel);
 		scrollPanel.add(envStatus);
 
-		//scrollLayout.putConstraint(SpringLayout.SOUTH, scrollPanel, 5, SpringLayout.SOUTH, envStatus);
+		scrollLayout.putConstraint(SpringLayout.NORTH, appSettings, 5, SpringLayout.SOUTH, envStatus);
+		scrollLayout.putConstraint(SpringLayout.WEST, appSettings, 5, SpringLayout.WEST, scrollPanel);
+		scrollLayout.putConstraint(SpringLayout.EAST, appSettings, -5, SpringLayout.EAST, scrollPanel);
+		scrollPanel.add(appSettings);
+
+		scrollLayout.putConstraint(SpringLayout.SOUTH, scrollPanel, 5, SpringLayout.SOUTH, appSettings);
 		JScrollPane scroll = new JScrollPane(scrollPanel);
 		scroll.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		layout.putConstraint(SpringLayout.NORTH, scroll, 0, SpringLayout.NORTH, contentPane);
@@ -151,6 +158,32 @@ public class StartupFrame extends JFrame {
 		envStatus.setInterestingEvents(events);
 	}
 
+	public void setNewHotKey(int modifier, int keycode) {
+		if( provider != null ) {
+			provider.reset();
+			final StartupFrame sf = this;
+			provider.register(KeyStroke.getKeyStroke(keycode, modifier), new HotKeyListener() {
+				@Override
+				public void onHotKey(HotKey hotKey) {
+					new SearchMap(main, sf);
+				}
+			});
+		}
+	}
+	public void setWebportEnabled(boolean enabled) {
+		appSettings.setWebportEnabled(enabled);
+	}
+	public boolean setNewWebPort(int port) {
+		appSettings.setWebportEnabled(false);
+		boolean r = true;
+		if( main.web.getState() == WebInterface.WEB_STATE_STARTED ) {
+			main.web.stop();
+			r = main.web.start(port);
+		}
+		appSettings.setWebportEnabled(true);
+		return r;
+	}
+
 	public EventManager getEventManger() {
 		return eventManger;
 	}
@@ -161,6 +194,7 @@ public class StartupFrame extends JFrame {
 			eventManger.stop();
 		}
 		if( provider != null ) {
+			appSettings.setHotkeyEnabled(false);
 			provider.reset();
 		}
 
@@ -200,7 +234,7 @@ public class StartupFrame extends JFrame {
 				new SearchMap(main, sf);
 			}
 		});
-
+		appSettings.setHotkeyEnabled(true);
 	}
 
 }

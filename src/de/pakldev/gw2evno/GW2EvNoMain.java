@@ -39,9 +39,10 @@ public class GW2EvNoMain {
 		System.out.println("[System] Starting web interface");
 		web = new WebInterface(this);
 		if( !noweb )
-			web.start();
+			web.start(Configuration.webPort);
 
 		sf.setWebinterfaceEnabled(true);
+		sf.setWebportEnabled(true);
 
 		this.loadLanguage(Configuration.language);
 	}
@@ -57,14 +58,17 @@ public class GW2EvNoMain {
 
 				sf.setStatusAndProgress("Loading worlds...", 0);
 				worlds = new WorldNames(language);
-				sf.setStatusAndProgress("Loading map names...", 1);
+				if( worlds.getWorlds().size() <= 0 ){ sf.setStatusAndProgress("API offline?", 0); return; }
 				System.out.println("[System] World names loaded");
+				sf.setStatusAndProgress("Loading map names...", 1);
 				maps = new MapNames(language);
-				sf.setStatusAndProgress("Loading event names...", 1);
+				if( maps.getMaps().size() <= 0 ){ sf.setStatusAndProgress("API offline?", 0); return; }
 				System.out.println("[System] Map names loaded");
+				sf.setStatusAndProgress("Loading event names...", 1);
 				events = new EventNames(language);
-				sf.setStatusAndProgress("Done!", 3);
+				if( events.getEvents().size() <= 0 ){ sf.setStatusAndProgress("API offline?", 0); return; }
 				System.out.println("[System] Event names loaded");
+				sf.setStatusAndProgress("Done!", 3);
 				sf.ready();
 			}
 		}).start();

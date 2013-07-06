@@ -149,7 +149,7 @@ public class SFMenu extends JMenuBar implements ActionListener {
 			if( itemStopped.isSelected() ) {
 				sf.getMain().web.stop();
 			} else if( itemStarted.isSelected() ) {
-				sf.getMain().web.start();
+				sf.getMain().web.start(Configuration.webPort);
 			}
 		}
 	}
