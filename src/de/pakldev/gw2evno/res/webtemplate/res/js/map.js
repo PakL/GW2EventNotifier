@@ -46,7 +46,7 @@ $(function () {
 			var eY = e.location.center[1];
 
 			var pX = (eX - m.map_rect[0][0]) / (m.map_rect[1][0] - m.map_rect[0][0]);
-			var pY = (eY - m.map_rect[0][1]) / (m.map_rect[1][1] - m.map_rect[0][1]);
+			var pY = 1-(eY - m.map_rect[0][1]) / (m.map_rect[1][1] - m.map_rect[0][1]);
 
 			var cX = m.continent_rect[0][0] + (m.continent_rect[1][0] - m.continent_rect[0][0]) * pX;
 			var cY = m.continent_rect[0][1] + (m.continent_rect[1][1] - m.continent_rect[0][1]) * pY;
