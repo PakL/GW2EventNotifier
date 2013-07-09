@@ -32,7 +32,7 @@ public class WebInterface {
 			server.start();
 			state = WEB_STATE_STARTED;
 			main.sf.setWebinterfaceState(WEB_STATE_STARTED);
-			System.out.println("[Web] Now listening on port 8086");
+			System.out.println("[Web] Now listening on port "+this.port);
 			return true;
 		} catch (IOException e) {
 			if( e.getMessage().startsWith("Address already in use") ) {
