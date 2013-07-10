@@ -5,17 +5,10 @@ import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;
 import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
-import de.pakldev.gw2evno.Language;
-import de.pakldev.gw2evno.gw2api.MapNames;
 import de.pakldev.gw2evno.web.WebInterface;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 
 public class StartupFrame extends JFrame {
 

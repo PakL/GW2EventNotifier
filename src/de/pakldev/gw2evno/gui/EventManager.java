@@ -7,8 +7,6 @@ import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
 import de.pakldev.gw2evno.web.WebSocketServer;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
