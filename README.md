@@ -26,3 +26,4 @@ Dependencies:
 * [json-simple](https://code.google.com/p/json-simple/)
 * [JKeyMaster](https://github.com/tulskiy/jkeymaster)
 	+ [Java Native Access](https://github.com/twall/jna)
+* [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket)
