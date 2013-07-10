@@ -101,7 +101,6 @@ public class FileHandler implements HttpHandler {
 
 			if( queryable && !readFirst.isEmpty() ) {
 				for(String key : q.keySet()) {
-					System.out.println(key + " => " + q.get(key));
 					readFirst = readFirst.replaceAll("\\{"+key+"}", q.get(key) );
 				}
 			}
