@@ -105,6 +105,19 @@ $(function(){
 		}
 	};
 
+	$('#worldselect').change(function(){
+		$.get('/data/setworld',{"world":$('#worldselect option:selected').prop("value")}, function(){});
+	});
+	$('#mapselect').change(function(){
+		$.get('/data/setmap',{"map":$('#mapselect option:selected').prop("value")}, function(){});
+	});
+	$('#interestingonly').change(function(){
+		if( $('#interestingonly').is(":checked") ) {
+			$.get('/data/setinterestingonly',{"interestingonly":"true"}, function(){});
+		} else {
+			$.get('/data/setinterestingonly',{"interestingonly":"false"}, function(){});
+		}
+	});
 
 	$('header > .settings').on('click',function(){
 		if( $('#settings').is(":hidden") ) {
