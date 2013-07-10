@@ -14,8 +14,10 @@ public class SFAppsettings extends JPanel implements ActionListener, KeyListener
 	private SpringLayout layout = new SpringLayout();
 
 	private JLabel labelWebport = new JLabel("Web interface port:");
+	private JLabel labelWebsocketport = new JLabel("Web socket port:");
 	private JLabel labelHotkey = new JLabel("Map changing hotkey:");
 	private JTextField txtWebport = new JTextField(""+Configuration.webPort);
+	private JTextField txtWebsocketport = new JTextField(""+Configuration.webSocketPort);
 	private JTextField txtHotkeyKey = new JTextField((!KeyEvent.getKeyModifiersText(Configuration.hotkeyMod).isEmpty() ? KeyEvent.getKeyModifiersText(Configuration.hotkeyMod)+" + " : "") + KeyEvent.getKeyText(Configuration.hotkeyKey));
 
 	public SFAppsettings(StartupFrame startupFrame) {
@@ -35,7 +37,19 @@ public class SFAppsettings extends JPanel implements ActionListener, KeyListener
 		layout.putConstraint(SpringLayout.WEST, txtWebport, 5, SpringLayout.EAST, labelWebport);
 		this.add(txtWebport);
 
-		layout.putConstraint(SpringLayout.NORTH, labelHotkey, 5, SpringLayout.SOUTH, labelWebport);
+		layout.putConstraint(SpringLayout.NORTH, labelWebsocketport, 5, SpringLayout.SOUTH, labelWebport);
+		layout.putConstraint(SpringLayout.WEST, labelWebsocketport, 5, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.SOUTH, labelWebsocketport, 0, SpringLayout.SOUTH, txtWebsocketport);
+		layout.putConstraint(SpringLayout.EAST, labelWebsocketport, 130, SpringLayout.WEST, labelWebsocketport);
+		this.add(labelWebsocketport);
+
+		txtWebsocketport.setEnabled(false); txtWebsocketport.addActionListener(this);
+		layout.putConstraint(SpringLayout.NORTH, txtWebsocketport, 0, SpringLayout.NORTH, labelWebsocketport);
+		layout.putConstraint(SpringLayout.EAST, txtWebsocketport, -5, SpringLayout.EAST, this);
+		layout.putConstraint(SpringLayout.WEST, txtWebsocketport, 5, SpringLayout.EAST, labelWebsocketport);
+		this.add(txtWebsocketport);
+
+		layout.putConstraint(SpringLayout.NORTH, labelHotkey, 5, SpringLayout.SOUTH, labelWebsocketport);
 		layout.putConstraint(SpringLayout.WEST, labelHotkey, 5, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.SOUTH, labelHotkey, 0, SpringLayout.SOUTH, txtHotkeyKey);
 		layout.putConstraint(SpringLayout.EAST, labelHotkey, 130, SpringLayout.WEST, labelHotkey);
@@ -53,6 +67,7 @@ public class SFAppsettings extends JPanel implements ActionListener, KeyListener
 
 	public void setWebportEnabled(boolean enabled) {
 		txtWebport.setEnabled(enabled);
+		txtWebsocketport.setEnabled(enabled);
 	}
 	public void setHotkeyEnabled(boolean enabled) {
 		txtHotkeyKey.setEnabled(enabled);
@@ -77,6 +92,24 @@ public class SFAppsettings extends JPanel implements ActionListener, KeyListener
 				txtWebport.setText(""+Configuration.webPort);
 				JOptionPane.showMessageDialog(sf, "This is not a valid port number.\nPort must be between 1024 and 65535.", "Webinterface", JOptionPane.ERROR_MESSAGE);
 			}
+		} else if( e.getSource() == txtWebsocketport ) {
+			String p = txtWebsocketport.getText();
+			p = p.replaceAll("[^0-9]", "");
+			try {
+				int port = Integer.parseInt(p); txtWebsocketport.setText(""+port);
+				if( port >= 1024 && port <= 65535 ) {
+					if( sf.setNewWebSocketPort(port) ) {
+						Configuration.webSocketPort = port;
+						Configuration.saveConfig();
+					}
+				} else {
+					JOptionPane.showMessageDialog(sf, "This is not a valid port number.\nPort must be between 1024 and 65535.", "Webinterface", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch(NumberFormatException ex) {
+				txtWebsocketport.setText(""+Configuration.webSocketPort);
+				JOptionPane.showMessageDialog(sf, "This is not a valid port number.\nPort must be between 1024 and 65535.", "Webinterface", JOptionPane.ERROR_MESSAGE);
+			}
+
 		}
 	}
 

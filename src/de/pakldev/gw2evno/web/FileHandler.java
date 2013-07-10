@@ -2,9 +2,11 @@ package de.pakldev.gw2evno.web;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import de.pakldev.gw2evno.Configuration;
 import de.pakldev.gw2evno.GW2EvNoMain;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +18,11 @@ public class FileHandler implements HttpHandler {
 		String path = ex.getRequestURI().getPath();
 
 		Map<String, String> q = new HashMap<String, String>();
+		try {
+			String localhostname = InetAddress.getLocalHost().getCanonicalHostName();
+			q.put("host", localhostname);
+		} catch(IOException e) {}
+		q.put("wsport", ""+Configuration.webSocketPort);
 		String query = ex.getRequestURI().getQuery();
 		if( query != null && !query.isEmpty() ) {
 			String[] s = query.split("&");
@@ -60,6 +67,7 @@ public class FileHandler implements HttpHandler {
 				chuncked = false;
 			}
 			if( path.endsWith(".js") || path.endsWith(".css") ) {
+				queryable = true;
 				chuncked = false;
 			}
 			if( path.endsWith(".png") ) {

@@ -126,8 +126,8 @@ public class SFMenu extends JMenuBar implements ActionListener {
 			GW2EvNoMain.openUrl("https://github.com/PakL/GW2EventNotifier/issues");
 		} else if( e.getSource() == itemOpen ) {
 			try {
-				String localhostname = InetAddress.getLocalHost().getHostName();
-				GW2EvNoMain.openUrl("http://"+localhostname+":8086/");
+				String localhostname = InetAddress.getLocalHost().getCanonicalHostName();
+				GW2EvNoMain.openUrl("http://"+localhostname+":"+Configuration.webPort+"/");
 			} catch (UnknownHostException e1) {}
 		} else if( e.getSource() == itemLangEN || e.getSource() == itemLangDE || e.getSource() == itemLangFR || e.getSource() == itemLangES ) {
 			if( itemLangEN.isSelected() ) {
@@ -149,7 +149,7 @@ public class SFMenu extends JMenuBar implements ActionListener {
 			if( itemStopped.isSelected() ) {
 				sf.getMain().web.stop();
 			} else if( itemStarted.isSelected() ) {
-				sf.getMain().web.start(Configuration.webPort);
+				sf.getMain().web.start(Configuration.webPort, Configuration.webSocketPort);
 			}
 		}
 	}

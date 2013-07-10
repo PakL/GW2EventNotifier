@@ -231,6 +231,12 @@ ul > li.state4.interesting, ul > li.state6.interesting {
 	border-color: #33b5e5;
 }
 
+ul > li.sparator {
+	min-height:0px;
+	height: 0px;
+	border: 3px solid #d8d8d8;
+}
+
 ul > li > div {
 	line-height: normal;
 	padding-top: 8px;

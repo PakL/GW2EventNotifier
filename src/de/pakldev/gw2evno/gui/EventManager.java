@@ -6,6 +6,9 @@ import de.pakldev.gw2evno.InterestingEvents;
 import de.pakldev.gw2evno.Language;
 import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;
+import de.pakldev.gw2evno.web.WebSocketServer;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -61,6 +64,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 
+					WebSocketServer ws = main.web.getWebSocket();
+					if( ws != null ) { ws.broadcastSettings();ws.broadcastEvents(); }
 					System.out.println("[GUI] World changed to " + main.worlds.getWorld(main.worlds.getWorldIdAt(world)));
 				}
 			} else if( e.getActionCommand().equalsIgnoreCase("mapChanged") ) {
@@ -72,6 +77,8 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 					Configuration.saveConfig();
 					lastUpdate = System.currentTimeMillis();
 
+					WebSocketServer ws = main.web.getWebSocket();
+					if( ws != null ) { ws.broadcastSettings();ws.broadcastEvents(); }
 					System.out.println("[GUI] Map changed to " + main.maps.getMap(main.maps.getMapIdAt(map)));
 				}
 			}
@@ -219,6 +226,12 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		}
 		lastEventState = newStates;
 
+		WebSocketServer ws = main.web.getWebSocket();
+		if( ws != null ) {
+			ws.broadcastEvents();
+			ws.broadcastInterestingevents();
+		}
+
 		sf.setMapEvents(lastEventState.size());
 		sf.setInterestingEvents(interestingState.size());
 	}
@@ -230,15 +243,21 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 			newtimeout = (Integer) spinner.getValue();
 		} else if( e.getSource() instanceof JCheckBox ) {
 			JCheckBox check = (JCheckBox) e.getSource();
+			WebSocketServer ws = main.web.getWebSocket();
 			if( check.isSelected() && !interestingOnly ) {
 				interestingOnly = true;
 				Configuration.interestingOnly = true;
 				Configuration.saveConfig();
+
+				if( ws != null ) ws.broadcastSettings();
 			} else if( !check.isSelected() && interestingOnly ) {
 				interestingOnly = false;
 				Configuration.interestingOnly = false;
 				Configuration.saveConfig();
+
+				if( ws != null ) ws.broadcastSettings();
 			}
+
 		}
 	}
 

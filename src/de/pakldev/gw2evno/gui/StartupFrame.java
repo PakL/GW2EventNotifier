@@ -178,7 +178,17 @@ public class StartupFrame extends JFrame {
 		boolean r = true;
 		if( main.web.getState() == WebInterface.WEB_STATE_STARTED ) {
 			main.web.stop();
-			r = main.web.start(port);
+			r = main.web.start(port, Configuration.webSocketPort);
+		}
+		appSettings.setWebportEnabled(true);
+		return r;
+	}
+	public boolean setNewWebSocketPort(int port) {
+		appSettings.setWebportEnabled(false);
+		boolean r = true;
+		if( main.web.getState() == WebInterface.WEB_STATE_STARTED ) {
+			main.web.stop();
+			r = main.web.start(Configuration.webPort, port);
 		}
 		appSettings.setWebportEnabled(true);
 		return r;

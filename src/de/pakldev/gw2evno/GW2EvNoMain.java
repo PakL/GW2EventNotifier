@@ -39,7 +39,7 @@ public class GW2EvNoMain {
 		System.out.println("[System] Starting web interface");
 		web = new WebInterface(this);
 		if( !noweb )
-			web.start(Configuration.webPort);
+			web.start(Configuration.webPort, Configuration.webSocketPort);
 
 		sf.setWebinterfaceEnabled(true);
 		sf.setWebportEnabled(true);
