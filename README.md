@@ -3,7 +3,7 @@ GW2 Event Notifier
 
 This application creates notification for upcoming in-game events in form of popups (like Steam messages, nothing game blocking).
 
-![GW2 Event Notifier notifications](http://pakldev.de/wp-content/uploads/2013/06/gw2evno_screen.png)
+![GW2 Event Notifier notifications](http://pakldev.de/wp-content/uploads/2013/06/gw2evno_screen2.png)
 
 It is necessary that you play Guild Wars 2 windowed or in "Windowed Fullscreen" mode.
 
