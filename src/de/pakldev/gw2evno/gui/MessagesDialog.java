@@ -1,5 +1,7 @@
 package de.pakldev.gw2evno.gui;
 
+import de.pakldev.gw2evno.Configuration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -41,8 +43,13 @@ public class MessagesDialog extends JDialog implements ActionListener, Runnable 
 
 		this.setBackground(Color.WHITE);
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(screenSize.width - this.getWidth(), screenSize.height - this.getHeight());
+		if( Configuration.notificationx < 0 || Configuration.notificationy < 0 ) {
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			Configuration.notificationx = (screenSize.width - this.getWidth());
+			Configuration.notificationx = (screenSize.height - this.getHeight());
+			Configuration.saveConfig();
+		}
+		this.setLocation(Configuration.notificationx, Configuration.notificationy);
 
 		Container contentPane = this.getContentPane();
 		contentPane.setLayout(layout);
@@ -60,6 +67,21 @@ public class MessagesDialog extends JDialog implements ActionListener, Runnable 
 			public void mouseExited(MouseEvent e) {
 				indexSwitch = new Thread(ft);
 				indexSwitch.start();
+			}
+		});
+		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
+			private int offsetX = 0;
+			private int offsetY = 0;
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				ft.setLocation(x-offsetX, y-offsetY);
+			}
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				offsetX = e.getX();
+				offsetY = e.getY();
 			}
 		});
 
@@ -277,6 +299,14 @@ public class MessagesDialog extends JDialog implements ActionListener, Runnable 
 	}
 
 	public void close() {
+		int x = this.getX();
+		int y = this.getY();
+		if( x != Configuration.notificationx || y != Configuration.notificationy ) {
+			Configuration.notificationx = x;
+			Configuration.notificationy = y;
+			Configuration.saveConfig();
+		}
+
 		this.setVisible(false);
 		messages.clear();
 		icons.clear();
