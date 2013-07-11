@@ -46,7 +46,7 @@ public class MessagesDialog extends JDialog implements ActionListener, Runnable 
 		if( Configuration.notificationx < 0 || Configuration.notificationy < 0 ) {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			Configuration.notificationx = (screenSize.width - this.getWidth());
-			Configuration.notificationx = (screenSize.height - this.getHeight());
+			Configuration.notificationy = (screenSize.height - this.getHeight());
 			Configuration.saveConfig();
 		}
 		this.setLocation(Configuration.notificationx, Configuration.notificationy);

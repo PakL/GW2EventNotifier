@@ -40,6 +40,15 @@ public class Configuration {
 		}
 	}
 
+	public static void resetConfig() {
+		try {
+			Configuration.preference.clear();
+			Configuration.loadConfig();
+		} catch(Exception ex) {
+			System.err.println("[Config] Error saving configuration: "+ex.getMessage());
+		}
+	}
+
 	public static void saveConfig() {
 		try {
 			Configuration.preference.putInt("worldIndex", Configuration.worldIndex);

@@ -20,6 +20,7 @@ public class SFMenu extends JMenuBar implements ActionListener {
 	private JMenu menuApplication = new JMenu("Application");
 	private JRadioButtonMenuItem itemPaused = new JRadioButtonMenuItem("Paused");
 	private JRadioButtonMenuItem itemRunning = new JRadioButtonMenuItem("Running");
+	private JMenuItem itemReset = new JMenuItem("Reset settings");
 	private JMenuItem itemClose = new JMenuItem("Close");
 
 	private JMenu menuLanguage = new JMenu("Language");
@@ -55,6 +56,8 @@ public class SFMenu extends JMenuBar implements ActionListener {
 
 		menuApplication.addSeparator();
 
+		itemReset.addActionListener(this);
+		menuApplication.add(itemReset);
 		itemClose.addActionListener(this);
 		menuApplication.add(itemClose);
 
@@ -116,7 +119,13 @@ public class SFMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if( e.getSource() == itemClose ) {
+		if( e.getSource() == itemReset ) {
+			int r = JOptionPane.showConfirmDialog(sf, "This resets all configuration settings.\nThe application is going to restart itself afterwards.\nShould I continue?", "Settings reseting", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if( r == 0 ) {
+				Configuration.resetConfig();
+				GW2EvNoMain.restartApplication();
+			}
+		} else if( e.getSource() == itemClose ) {
 			System.exit(0);
 		} else if( e.getSource() == itemHelp ) {
 			GW2EvNoMain.openUrl("https://github.com/PakL/GW2EventNotifier/wiki");
