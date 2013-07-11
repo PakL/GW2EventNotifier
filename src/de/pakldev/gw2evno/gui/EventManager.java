@@ -22,7 +22,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 
 	private final GW2EvNoMain main;
 	private final StartupFrame sf;
-	private final DialogManager dm;
+	private final MessagesDialog md;
 
 	private int world = 0;
 	private int map = 0;
@@ -40,7 +40,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 	public EventManager(GW2EvNoMain main, StartupFrame sf) {
 		this.main = main;
 		this.sf = sf;
-		dm = new DialogManager();
+		md = new MessagesDialog();
 
 		world = sf.getWorldIndex();
 		map = sf.getMapIndex();
@@ -97,7 +97,7 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 		if( running ) {
 			running = false;
 			thisThread.interrupt();
-			dm.clear();
+			md.close();
 			sf.setApplicationState(SFMenu.APPLICATION_STATE_PAUSED);
 		}
 	}
@@ -178,13 +178,13 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 				if( EventNames.getEventType(eventId) == Events.TYPE_SKILL ) continue;
 
 				if( newState == Events.STATE_WARMUP ) {
-					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.warmup() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.warmup(), EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_PREPARATION ) {
-					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.preparation() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.preparation(), EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_ACTIVE ) {
-					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.active() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.active(), EventNames.getIcon(eventId), true);
 				} else if( newState == Events.STATE_INACTIVE ) {
-					dm.newDialog(eventId, "<html><center><font color=\"#FFFFFF\"><b>" + eventName + "</b><br />" + Language.inactive() + "</font></center></html>", EventNames.getIcon(eventId), true);
+					md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.inactive(), EventNames.getIcon(eventId), true);
 				}
 				shown.add(eventId);
 
@@ -209,13 +209,13 @@ public class EventManager implements Runnable, ActionListener, ChangeListener {
 
 						if( !shown.contains(eventId) ) {
 							if( newState == Events.STATE_WARMUP ) {
-								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.warmup() + "</center></html>", EventNames.getIcon(eventId), false);
+								md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.warmup(), EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_PREPARATION ) {
-								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.preparation() + "</center></html>", EventNames.getIcon(eventId), false);
+								md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.preparation(), EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_ACTIVE ) {
-								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.active() + "</center></html>", EventNames.getIcon(eventId), false);
+								md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.active(), EventNames.getIcon(eventId), false);
 							} else if( newState == Events.STATE_INACTIVE ) {
-								dm.newDialog(eventId, "<html><center><b>" + eventName + "</b><br />" + Language.inactive() + "</center></html>", EventNames.getIcon(eventId), false);
+								md.addMessage(eventId, "<b>" + eventName + "</b><br />" + Language.inactive(), EventNames.getIcon(eventId), false);
 							}
 						}
 					}
