@@ -231,7 +231,7 @@ public class StartupFrame extends JFrame {
 
 		if( provider == null ) provider = Provider.getCurrentProvider(false);
 		final StartupFrame sf = this;
-		provider.register(KeyStroke.getKeyStroke("control BACK_SPACE"), new HotKeyListener() {
+		provider.register(KeyStroke.getKeyStroke(Configuration.hotkeyKey, Configuration.hotkeyMod), new HotKeyListener() {
 			@Override
 			public void onHotKey(HotKey hotKey) {
 				new SearchMap(main, sf);
