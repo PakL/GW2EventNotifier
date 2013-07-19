@@ -1,6 +1,7 @@
 package de.pakldev.gw2evno;
 
 
+import de.pakldev.gw2evno.gui.InterestingEventsManager;
 import de.pakldev.gw2evno.gui.StartupFrame;
 import de.pakldev.gw2evno.gw2api.EventNames;
 import de.pakldev.gw2evno.gw2api.Events;

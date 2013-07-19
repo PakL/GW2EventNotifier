@@ -18,7 +18,7 @@ public class StartupFrame extends JFrame {
 
 	private SpringLayout layout = new SpringLayout();
 
-	private SFMenu menuBar = new SFMenu(this);
+	private SFMenu menuBar;
 	private SFStatusBar statusBar = new SFStatusBar(this);
 	private SFReqsettings reqSettings = new SFReqsettings(this);
 	private SFEnvironmentStatus envStatus = new SFEnvironmentStatus(this);
@@ -29,6 +29,7 @@ public class StartupFrame extends JFrame {
 	public StartupFrame(GW2EvNoMain main, boolean startuppaused) {
 		this.main = main;
 		pauseAfterReady = startuppaused;
+		menuBar = new SFMenu(this);
 
 		this.setTitle("GW2 Event Notifier");
 		this.setSize(400, 340);

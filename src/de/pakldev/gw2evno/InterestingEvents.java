@@ -1,8 +1,15 @@
 package de.pakldev.gw2evno;
 
-import java.io.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.prefs.Preferences;
 
 public class InterestingEvents {
+
+	private static Preferences preference;
 
 	public static String[] eventIds = new String[]{
 		"568A30CF-8512-462F-9D67-647D69BEFAED",
@@ -11,40 +18,36 @@ public class InterestingEvents {
 	};
 
 	public static void loadInterestingEvents() {
-		File evidFile = new File("gw2InterestingEvents.cfg");
-		String evid = "";
-		if( !evidFile.exists() ) {
-			for(String e : InterestingEvents.eventIds) {
-				if( !e.isEmpty() )
-					evid += e + "\n";
-			}
-
-			try {
-				OutputStream os = new FileOutputStream(evidFile);
-				os.write(evid.getBytes());
-				os.flush();
-				os.close();
-				System.out.println("[Config] Default InterestingEvents file created.");
-			} catch(Exception e) {
-				System.err.println("[Config] Error creating InterestingEvents file: "+e.getMessage());
-			}
-		}
 		try {
-			InputStream is = new FileInputStream(evidFile);
-			int r = -1;
-			while((r = is.read()) >= 0) {
-				int a = is.available();
-				byte[] b = new byte[a+1];
-				b[0] = (byte)r;
-				is.read(b, 1, a);
-				evid += new String(b);
+			InterestingEvents.preference = Preferences.userRoot().node("/de/pakldev/gw2evno/InterestingEvents");
+
+			String eventsJSON = InterestingEvents.preference.get("eventids", "[\"568A30CF-8512-462F-9D67-647D69BEFAED\",\"03BF176A-D59F-49CA-A311-39FC6F533F2F\",\"0464CB9E-1848-4AAA-BA31-4779A959DD71\"]");
+			JSONArray events = (JSONArray) JSONValue.parse(eventsJSON);
+			List<String> e = new ArrayList<String>();
+			for(Object o : events.toArray() ) {
+				String s = (String)o;
+				e.add(s);
 			}
-			is.close();
-			System.out.println("[Config] Interesting Events loaded with no error.");
-		} catch (Exception e) {
-			System.err.println("[Config] Error loadgin InterestingEvents file: "+e.getMessage());
+			InterestingEvents.eventIds = e.toArray(new String[0]);
+
+			System.out.println("[Config] Interesting events loaded with no error.");
+		} catch(Exception ex) {
+			System.err.println("[Config] Error loading interesting events: "+ex.getMessage());
 		}
-		String[] eventIds = evid.split("\n");
+	}
+
+	public static void saveInterestingEvents() {
+		try {
+			JSONArray events = new JSONArray();
+			for(String id : eventIds)
+				events.add(id);
+
+			InterestingEvents.preference.put("eventids", events.toString());
+
+			System.out.println("[Config] Interesting events saved with no error.");
+		} catch(Exception ex) {
+			System.err.println("[Config] Error saving interesting events: "+ex.getMessage());
+		}
 	}
 
 }

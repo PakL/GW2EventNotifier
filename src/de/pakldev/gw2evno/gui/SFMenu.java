@@ -20,6 +20,7 @@ public class SFMenu extends JMenuBar implements ActionListener {
 	private JMenu menuApplication = new JMenu("Application");
 	private JRadioButtonMenuItem itemPaused = new JRadioButtonMenuItem("Paused");
 	private JRadioButtonMenuItem itemRunning = new JRadioButtonMenuItem("Running");
+	private JMenuItem itemIEManager = new JMenuItem("Interesting Event Manager");
 	private JMenuItem itemReset = new JMenuItem("Reset settings");
 	private JMenuItem itemClose = new JMenuItem("Close");
 
@@ -39,9 +40,12 @@ public class SFMenu extends JMenuBar implements ActionListener {
 	private JMenuItem itemChangelog = new JMenuItem("Changelog");
 	private JMenuItem itemReport = new JMenuItem("Report a bug");
 
+	private InterestingEventsManager iemanager;
+
 
 	public SFMenu(StartupFrame startupFrame) {
 		this.sf = startupFrame;
+		this.iemanager = new InterestingEventsManager(startupFrame.getMain());
 
 		ButtonGroup stateGroup = new ButtonGroup();
 		itemPaused.setSelected(true);
@@ -55,7 +59,8 @@ public class SFMenu extends JMenuBar implements ActionListener {
 		menuApplication.add(itemRunning);
 
 		menuApplication.addSeparator();
-
+		itemIEManager.addActionListener(this);
+		menuApplication.add(itemIEManager);
 		itemReset.addActionListener(this);
 		menuApplication.add(itemReset);
 		itemClose.addActionListener(this);
@@ -119,7 +124,9 @@ public class SFMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if( e.getSource() == itemReset ) {
+		if( e.getSource() == itemIEManager ) {
+			iemanager.setVisible(true);
+		} else if( e.getSource() == itemReset ) {
 			int r = JOptionPane.showConfirmDialog(sf, "This resets all configuration settings.\nThe application is going to restart itself afterwards.\nShould I continue?", "Settings reseting", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if( r == 0 ) {
 				Configuration.resetConfig();
@@ -191,6 +198,7 @@ public class SFMenu extends JMenuBar implements ActionListener {
 
 	public void languageEnabled(boolean enabled) {
 		menuLanguage.setEnabled(enabled);
+		itemIEManager.setEnabled(enabled);
 	}
 
 	public void webinterfaceEnabled(boolean enabled) {
