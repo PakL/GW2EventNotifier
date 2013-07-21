@@ -15,6 +15,7 @@ public class InterestingEventsManager extends JDialog {
 	private final GW2EvNoMain main;
 	private SpringLayout layout = new SpringLayout();
 
+	private JLabel lblSearch = new JLabel("Search event:");
 	private JTextField txtSearch = new JTextField();
 
 	private JList<EventEntry> listActive = new JList<EventEntry>();
@@ -30,18 +31,22 @@ public class InterestingEventsManager extends JDialog {
 		contentPane.setLayout(layout);
 
 		JScrollPane scrollActive = new JScrollPane(listActive);
+		JScrollPane scrollInactive = new JScrollPane(listInactive);
 
 		layout.putConstraint(SpringLayout.NORTH, scrollActive, 5, SpringLayout.SOUTH, txtSearch);
 		layout.putConstraint(SpringLayout.WEST, scrollActive, 5, SpringLayout.WEST, contentPane);
 		layout.putConstraint(SpringLayout.EAST, scrollActive, -5, SpringLayout.HORIZONTAL_CENTER, contentPane);
 		layout.putConstraint(SpringLayout.SOUTH, scrollActive, -5, SpringLayout.SOUTH, contentPane);
 
-		JScrollPane scrollInactive = new JScrollPane(listInactive);
-
 		layout.putConstraint(SpringLayout.NORTH, txtSearch, 5, SpringLayout.NORTH, contentPane);
 		layout.putConstraint(SpringLayout.WEST, txtSearch, 0, SpringLayout.WEST, scrollInactive);
 		layout.putConstraint(SpringLayout.EAST, txtSearch, 0, SpringLayout.EAST, scrollInactive);
 		layout.putConstraint(SpringLayout.SOUTH, txtSearch, 20, SpringLayout.NORTH, txtSearch);
+
+		layout.putConstraint(SpringLayout.NORTH, lblSearch, 5, SpringLayout.NORTH, contentPane);
+		layout.putConstraint(SpringLayout.EAST, lblSearch, -5, SpringLayout.WEST, txtSearch);
+		//layout.putConstraint(SpringLayout.WEST, lblSearch, 0, SpringLayout.WEST, scrollInactive);
+		layout.putConstraint(SpringLayout.SOUTH, lblSearch, 0, SpringLayout.SOUTH, txtSearch);
 
 		layout.putConstraint(SpringLayout.NORTH, scrollInactive, 5, SpringLayout.SOUTH, txtSearch);
 		layout.putConstraint(SpringLayout.WEST, scrollInactive, 5, SpringLayout.HORIZONTAL_CENTER, contentPane);
@@ -49,6 +54,7 @@ public class InterestingEventsManager extends JDialog {
 		layout.putConstraint(SpringLayout.SOUTH, scrollInactive, -5, SpringLayout.SOUTH, contentPane);
 
 		contentPane.add(txtSearch);
+		contentPane.add(lblSearch);
 		contentPane.add(scrollActive);
 		contentPane.add(scrollInactive);
 
@@ -60,7 +66,8 @@ public class InterestingEventsManager extends JDialog {
 			}
 		});
 
-
+		listActive.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listInactive.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listInactive.setModel(filteredListModel);
 
 		listInactive.addMouseListener(new MouseAdapter() {
