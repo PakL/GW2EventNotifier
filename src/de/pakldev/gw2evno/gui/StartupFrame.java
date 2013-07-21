@@ -129,6 +129,9 @@ public class StartupFrame extends JFrame {
 		menuBar.setApplicationState(state);
 		envStatus.setApplicationState(state);
 	}
+	public int getApplicationState() {
+		return menuBar.getApplicationState();
+	}
 	public void setWebinterfaceState(int state) {
 		envStatus.setWebinterfaceState(state);
 		menuBar.setWebinterfaceState(state);

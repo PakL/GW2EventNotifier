@@ -181,6 +181,12 @@ public class SFMenu extends JMenuBar implements ActionListener {
 			itemRunning.setSelected(true);
 		}
 	}
+	public int getApplicationState() {
+		if( itemRunning.isSelected() ) {
+			return APPLICATION_STATE_RUNNING;
+		}
+		return APPLICATION_STATE_PAUSED;
+	}
 	public void setWebinterfaceState(int state) {
 		if(state == WebInterface.WEB_STATE_STOPPED) {
 			itemStopped.setSelected(true);

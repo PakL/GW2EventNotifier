@@ -90,11 +90,23 @@ public class InterestingEventsManager extends JDialog {
 		});
 	}
 
+	private int statebefore = 0;
+
 	@Override
 	public void setVisible(boolean visible) {
 		this.setLocation(main.sf.getX(), main.sf.getY());
 		this.setSize(main.sf.getWidth(), main.sf.getHeight());
 		updateLists();
+
+		if(visible) {
+			statebefore = main.sf.getApplicationState();
+			main.sf.stopEventManager();
+		} else {
+			if( statebefore == SFMenu.APPLICATION_STATE_RUNNING ) {
+				main.sf.startEventManager();
+			}
+		}
+
 		super.setVisible(visible);
 	}
 
