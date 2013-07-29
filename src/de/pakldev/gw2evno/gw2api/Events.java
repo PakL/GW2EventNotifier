@@ -8,6 +8,7 @@ import org.json.simple.JSONValue;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +51,10 @@ public class Events {
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		if( !worldId.isEmpty() && !mapId.isEmpty() ) {
 			try {
-				String eventsStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&map_id="+mapId);
-				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsStr);
+				Reader eventsRead = GW2EvNoMain.readURL("https://api.guildwars2.com/v1/events.json?world_id=" + worldId + "&map_id=" + mapId);
+				if( eventsRead == null ) throw new NullPointerException("Couldn't load events");
+				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsRead);
+				eventsRead.close();
 				if( eventsObj != null ) {
 					if( eventsObj.containsKey("events") ) {
 						JSONArray events = (JSONArray) eventsObj.get("events");
@@ -82,8 +85,10 @@ public class Events {
 		int result = STATE_FAIL;
 		if( !worldId.isEmpty() && !eventId.isEmpty() ) {
 			try {
-				String eventsStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&event_id="+eventId);
-				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsStr);
+				Reader eventsRead = GW2EvNoMain.readURL("https://api.guildwars2.com/v1/events.json?world_id="+worldId+"&event_id="+eventId);
+				if( eventsRead == null ) throw new NullPointerException("Couldn't load event");
+				JSONObject eventsObj = (JSONObject) JSONValue.parse(eventsRead);
+				eventsRead.close();
 				if( eventsObj != null  ) {
 					if( eventsObj.containsKey("events") ) {
 						JSONArray events = (JSONArray) eventsObj.get("events");

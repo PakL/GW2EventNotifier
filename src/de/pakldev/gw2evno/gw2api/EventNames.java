@@ -9,6 +9,7 @@ import org.json.simple.JSONValue;
 import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +27,10 @@ public class EventNames {
 
 	public EventNames(String language) {
 		try {
-			String eventNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/event_names.json?lang="+language);
-			JSONArray eventNames_ = (JSONArray)JSONValue.parse(eventNamesStr);
+			Reader eventNamesRead = GW2EvNoMain.readURL("https://api.guildwars2.com/v1/event_names.json?lang=" + language);
+			if( eventNamesRead == null ) throw new NullPointerException("Couldn't initialize event names!");
+			JSONArray eventNames_ = (JSONArray)JSONValue.parse(eventNamesRead);
+			eventNamesRead.close();
 			if( eventNames_ != null ) {
 				for(Object obj : eventNames_) {
 					JSONObject o = (JSONObject)obj;
@@ -47,16 +50,17 @@ public class EventNames {
 	public static void loadEventIcons() {
 		try {
 			InputStream is = GW2EvNoMain.class.getResourceAsStream("res/eventTypes.json");
-			String eventNamesStr = "";
 			int r = -1;
+			StringBuilder ensb = new StringBuilder();
 			while( (r = is.read()) >= 0 ) {
 				int a = is.available();
 				byte[] b = new byte[a+1];
 				b[0] = (byte) r;
 				is.read(b, 1, a);
-				eventNamesStr += new String(b);
+				ensb.append(new String(b));
 			}
 			is.close();
+			String eventNamesStr = "";
 
 			JSONArray eventNames_ = (JSONArray)JSONValue.parse(eventNamesStr);
 			for(Object obj : eventNames_) {

@@ -12,9 +12,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -105,7 +103,7 @@ public class GW2EvNoMain {
 		new GW2EvNoMain(startuppaused, noweb);
 	}
 
-	public static String loadURL(String urlStr) throws MalformedURLException {
+	/*public static String loadURL(String urlStr) throws MalformedURLException {
 		URL url = new URL(urlStr);
 		String result = "";
 		try {
@@ -133,6 +131,30 @@ public class GW2EvNoMain {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.toString(), e.getClass().getName(), JOptionPane.ERROR_MESSAGE);
 			//System.exit(0);
+		}
+
+		return result;
+	}*/
+
+	public static Reader readURL(String urlStr) throws MalformedURLException {
+		URL url = new URL(urlStr);
+		Reader result = null;
+		try {
+			URLConnection conn = url.openConnection();
+			if( conn instanceof HttpsURLConnection ) {
+				((HttpsURLConnection)conn).setHostnameVerifier(new HostnameVerifier() {
+					@Override
+					public boolean verify(String s, SSLSession sslSession) {
+						return true;
+					}
+				});
+			}
+			InputStream is = conn.getInputStream();
+			System.out.println("[HTTP] Opening " + urlStr + "...");
+
+			return new InputStreamReader(is);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, e.toString(), e.getClass().getName(), JOptionPane.ERROR_MESSAGE);
 		}
 
 		return result;

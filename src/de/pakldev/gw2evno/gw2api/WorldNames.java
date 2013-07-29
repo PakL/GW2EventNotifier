@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.swing.*;
+import java.io.Reader;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,8 +23,10 @@ public class WorldNames {
 
 	public WorldNames(String language) {
 		try {
-			String worldNamesStr = GW2EvNoMain.loadURL("https://api.guildwars2.com/v1/world_names.json?lang="+language);
-			JSONArray worldNames_ = (JSONArray) JSONValue.parse(worldNamesStr);
+			Reader worldNamesRead = GW2EvNoMain.readURL("https://api.guildwars2.com/v1/world_names.json?lang="+language);
+			if( worldNamesRead == null ) throw new NullPointerException("Couldn't initialize world names!");
+			JSONArray worldNames_ = (JSONArray) JSONValue.parse(worldNamesRead);
+			worldNamesRead.close();
 			if( worldNames_ != null ) {
 				for(Object obj : worldNames_) {
 					JSONObject o = (JSONObject)obj;
