@@ -1,6 +1,8 @@
 GW2 Event Notifier
 ==================
 
+**Since ArenaNet/NCSoft made a lot of changes to the server structure and API this program does no longer work. Development has not continued on my part and since I do not play GW2 (that much) anymore I will propably not continue.**
+
 This application creates notification for upcoming in-game events in form of popups (like Steam messages, nothing game blocking).
 
 ![GW2 Event Notifier notifications](http://pakldev.de/wp-content/uploads/2013/06/gw2evno_screen2.png)
